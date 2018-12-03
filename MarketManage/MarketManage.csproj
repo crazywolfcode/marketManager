@@ -33,8 +33,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MyCustomControlLibrary">
+      <HintPath>..\..\IntentConnectWeighing\MyCustomControlLibrary\bin\Debug\MyCustomControlLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MyHelperLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3df23f22b313eb46, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\IntentConnectWeighing\MyHelperLibrary\bin\Debug\MyHelperLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MyLoadingLib">
+      <HintPath>..\..\MyLoadingLib\MyLoadingLib\bin\Debug\MyLoadingLib.dll</HintPath>
+    </Reference>
+    <Reference Include="SqlDao">
+      <HintPath>..\..\..\libary\SqlDao\SqlDao\bin\Debug\SqlDao.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -53,20 +68,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Ui\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behavior\WindowBehavior.cs" />
+    <Compile Include="Common\CommonFunction.cs" />
+    <Compile Include="Common\Constract.cs" />
+    <Compile Include="Control\ControlAttachProperty.cs" />
+    <Compile Include="Control\IconButton.cs" />
+    <Compile Include="Control\ImageButton.cs" />
+    <Compile Include="Control\TabButton.cs" />
+    <Compile Include="Control\WindowButton.cs" />
+    <Compile Include="Convertor\CheckedToVisibleConverter.cs" />
+    <Compile Include="Entity\Connection.cs" />
+    <Compile Include="Enum\commonEnum.cs" />
+    <Compile Include="Helper\TemplateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -88,9 +110,101 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Themes\Font\iconfont.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dll\MyHelperLibrary.dll" />
+    <Resource Include="logo.ico" />
+    <Resource Include="Themes\Img\Background\background_main.png" />
+    <Resource Include="Themes\Img\Background\bd.png" />
+    <Resource Include="Themes\Img\Background\bd_blue_center.png" />
+    <Resource Include="Themes\Img\Background\bd_blue_center_2.png" />
+    <Resource Include="Themes\Img\Background\bd_blue_last.png" />
+    <Resource Include="Themes\Img\Background\bd_blue_pre.png" />
+    <Resource Include="Themes\Img\Background\enter.png" />
+    <Resource Include="Themes\Img\Background\mover.png" />
+    <Resource Include="Themes\Img\Button\add_enter.png" />
+    <Resource Include="Themes\Img\Button\add_mover.png" />
+    <Resource Include="Themes\Img\Button\add_nomal.png" />
+    <Resource Include="Themes\Img\Button\mie.png" />
+    <Resource Include="Themes\Img\Button\mim.png" />
+    <Resource Include="Themes\Img\Button\min.png" />
+    <Resource Include="Themes\Img\Button\mme.png" />
+    <Resource Include="Themes\Img\Button\mmm.png" />
+    <Resource Include="Themes\Img\Button\mmn.png" />
+    <Resource Include="Themes\Img\Button\mse.png" />
+    <Resource Include="Themes\Img\Button\msm.png" />
+    <Resource Include="Themes\Img\Button\msn.png" />
+    <Resource Include="Themes\Img\Button\mxe.png" />
+    <Resource Include="Themes\Img\Button\mxm.png" />
+    <Resource Include="Themes\Img\Button\mxn.png" />
+    <Resource Include="Themes\Img\Button\ske.png" />
+    <Resource Include="Themes\Img\Button\skm.png" />
+    <Resource Include="Themes\Img\Button\skn.png" />
+    <Resource Include="Themes\Img\Button\xe.png" />
+    <Resource Include="Themes\Img\Button\xm.png" />
+    <Resource Include="Themes\Img\Button\xn.png" />
+    <Resource Include="Themes\Img\Icon\favicon.ico" />
+    <Resource Include="Themes\Img\Icon\favicon128.ico" />
+    <Resource Include="Themes\Img\Icon\favicon32.ico" />
+    <Resource Include="Themes\Img\Icon\favicon48.ico" />
+    <Resource Include="Themes\Img\Icon\favicon64.ico" />
+    <Resource Include="Themes\Img\Icon\icon.png" />
+    <Resource Include="Themes\Img\Icon\setting-ico.png" />
+    <Resource Include="Themes\Img\Icon\transportIcon.png" />
+    <Resource Include="Themes\Img\Icon\yjtp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Lang\DefaultLanguage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Lang\zh-EN.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\IconButtonStyleDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\MenuAndTreeViewDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\ScrollViewerDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\TabButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\ValueDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\WindowStyleDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ui\connItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ui\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Command\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
