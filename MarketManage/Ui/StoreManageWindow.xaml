@@ -67,7 +67,7 @@
         <Border Background="White" Margin="0,0,0,0" Grid.Row="1">
             <ScrollViewer Style="{DynamicResource DefaultScrollViewer}" VerticalScrollBarVisibility="Auto">
                 <StackPanel VerticalAlignment="Top" x:Name="mainBody">
-                    <Image Source="http://www.byam.cn/data/files/store_196/other/store_logo.jpg" Stretch="Fill" Width="100"/>
+                    <!--<Image Source="http://www.byam.cn/data/files/store_196/other/store_logo.jpg" Stretch="Fill" Width="100"/>-->
                 </StackPanel>
             </ScrollViewer>
         </Border>

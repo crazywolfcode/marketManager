@@ -126,7 +126,7 @@ namespace MarketManage
         {
             Grid grid = sender as Grid;
             int index = Convert.ToInt32(grid.Tag.ToString());
-          //TODO
+            new GoodsManageWindow(storeList[index]).ShowDialog();         
         }
 
         private void Element_MouseLeave(object sender, MouseEventArgs e)

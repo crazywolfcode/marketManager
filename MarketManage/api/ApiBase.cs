@@ -11,5 +11,9 @@ namespace MarketManage
        Boolean isConn(String addres);
 
         List<EcmStore> GetStoreList();
+
+        List<EcmGcategory> GetGCateList(int storeId, int parentid =0);
+
+        
     }
 }

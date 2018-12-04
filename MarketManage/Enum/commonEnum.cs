@@ -24,6 +24,7 @@ namespace MarketManage
 
     public enum TableName {
         ecm_store,
+        ecm_gcategory
     }
 
 }
