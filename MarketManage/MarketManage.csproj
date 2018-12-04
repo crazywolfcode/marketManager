@@ -85,8 +85,8 @@
     <Compile Include="reader\InventoryBuffer.cs" />
     <Compile Include="reader\OperateTagBuffer.cs" />
     <Compile Include="reader\ReaderSetting.cs" />
-    <Compile Include="Ui\GoodsManageWindow.xaml.cs">
-      <DependentUpon>GoodsManageWindow.xaml</DependentUpon>
+    <Compile Include="Ui\StoreManageWindow.xaml.cs">
+      <DependentUpon>StoreManageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ui\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -215,11 +215,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Ui\storeItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Ui\connItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ui\GoodsManageWindow.xaml">
+    <Page Include="Ui\StoreManageWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

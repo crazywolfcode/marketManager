@@ -20,7 +20,7 @@ using System.Text;
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int32 storeId{ get; set; }
+	 public UInt32 storeId{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
@@ -44,7 +44,7 @@ using System.Text;
 	 /// 可空:YES
 	 /// </summary>
 
-	 public Int32 regionId{ get; set; }
+	 public UInt32 regionId{ get; set; }
 
 	 /// <summary>
 	 /// 可空:YES
@@ -135,7 +135,7 @@ using System.Text;
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int16 state{ get; set; }
+	 public Int32 state{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
@@ -147,14 +147,14 @@ using System.Text;
 	 /// 可空:YES
 	 /// </summary>
 
-	 public Int32 addTime{ get; set; }
+	 public UInt32 addTime{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int32 endTime{ get; set; }
+	 public UInt32 endTime{ get; set; }
 
 	 /// <summary>
 	 /// 可空:YES
@@ -167,14 +167,14 @@ using System.Text;
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int16 sortOrder{ get; set; }
+	// public Int16 sortOrder{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int16 recommended{ get; set; }
+	/// public Int16 recommended{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
@@ -271,14 +271,14 @@ using System.Text;
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int16 enableGroupbuy{ get; set; }
+	// public Int16 enableGroupbuy{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 ///默认值:1
 	 /// </summary>
 
-	 public Int16 enableRadar{ get; set; }
+	// public Int16 enableRadar{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
@@ -308,21 +308,21 @@ using System.Text;
 	 /// 可空:NO
 	 /// </summary>
 
-	 public Int32 zoom{ get; set; }
+//	 public Int32 zoom{ get; set; }
 
 	 /// <summary>
 	 /// 注释:营业开始时间
 	 /// 可空:YES
 	 /// </summary>
 
-	 public Int16 serviceBegin{ get; set; }
+//	 public Int16 serviceBegin{ get; set; }
 
 	 /// <summary>
 	 /// 注释:营业结束时间
 	 /// 可空:YES
 	 /// </summary>
 
-	 public Int16 serviceEnd{ get; set; }
+//	 public Int16 serviceEnd{ get; set; }
 
 	 /// <summary>
 	 /// 注释:到达时间
@@ -330,7 +330,7 @@ using System.Text;
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int32 serviceArrive{ get; set; }
+//	 public Int32 serviceArrive{ get; set; }
 
 	 /// <summary>
 	 /// 注释:人均消费
@@ -350,7 +350,7 @@ using System.Text;
 	 /// 可空:NO
 	 /// </summary>
 
-	 public Int32 acountForFreeFee{ get; set; }
+	// public Int32 acountForFreeFee{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
@@ -362,20 +362,20 @@ using System.Text;
 	 /// 可空:NO
 	 /// </summary>
 
-	 public String afterConnects{ get; set; }
+//	 public String afterConnects{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int16 isOpenShua{ get; set; }
+//	 public Int16 isOpenShua{ get; set; }
 
 	 /// <summary>
 	 /// 可空:YES
 	 /// </summary>
 
-	 public Int32 cityId{ get; set; }
+	// public Int32 cityId{ get; set; }
 
 	 /// <summary>
 	 /// 可空:YES
@@ -400,7 +400,7 @@ using System.Text;
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int16 authenticationState{ get; set; }
+	// public Int16 authenticationState{ get; set; }
 
 	 /// <summary>
 	 /// 可空:YES
@@ -455,7 +455,7 @@ using System.Text;
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int16 stateRemind{ get; set; }
+//	 public Int16 stateRemind{ get; set; }
 
 	 /// <summary>
 	 /// 注释:��������
@@ -463,7 +463,7 @@ using System.Text;
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int16 storeType{ get; set; }
+	// public Int16 storeType{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO

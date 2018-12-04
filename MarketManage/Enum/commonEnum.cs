@@ -21,4 +21,9 @@ namespace MarketManage
         coryRight,
         dbType,
     }
+
+    public enum TableName {
+        ecm_store,
+    }
+
 }

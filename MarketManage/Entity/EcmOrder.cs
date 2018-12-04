@@ -223,11 +223,7 @@ using System.Text;
 
 	 public Int16 payAlter{ get; set; }
 
-	 /// <summary>
-	 /// 可空:NO
-	 /// </summary>
-
-	 public Int16 virtual{ get; set; }
+	
 
 	 /// <summary>
 	 /// 可空:NO

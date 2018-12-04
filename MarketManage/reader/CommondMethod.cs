@@ -26,7 +26,7 @@ namespace MarketManage
                     nIndex++;
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
             	
             }
@@ -58,7 +58,7 @@ namespace MarketManage
                     nIndex++;
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
             	
             }

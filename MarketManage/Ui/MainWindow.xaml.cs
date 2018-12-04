@@ -178,7 +178,7 @@ namespace MarketManage
                     new SettingWindow().ShowDialog();
                     break;
                 case "goodsManager":
-                    MessageBox.Show("goods Manager！");
+                    new GoodsManageWindow().ShowDialog();
                     break;
                 case "quit":
                     this.Close();

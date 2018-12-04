@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace MarketManage
 {
-    interface ApiBase
+  public  interface ApiBase
     {
-        Boolean isConn(String addres);
+       Boolean isConn(String addres);
+
+        List<EcmStore> GetStoreList();
     }
 }

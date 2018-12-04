@@ -1,0 +1,28 @@
+﻿<Grid Margin="10,10,10,0"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:myUi="clr-namespace:MyCustomControlLibrary;assembly=MyCustomControlLibrary"
+        xmlns:local="clr-namespace:MarketManage"
+      >
+    <Grid.RowDefinitions>
+        <RowDefinition Height="4" />
+        <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Border CornerRadius="4,4,0,0" Grid.Row="0" Padding="10" Background="{StaticResource E4}"></Border>
+    <Border Grid.Row="1" CornerRadius="0,0,4,4" x:Name="main" Padding="10" Background="{StaticResource F9}">
+        <StackPanel Orientation="Horizontal">
+            <Image x:Name="storeImg" Source="/MarketManage;component/logo.ico" Width="100" Stretch="Fill"/>
+            <StackPanel Margin="6">
+                <TextBlock x:Name="storeName" FontWeight="Bold" FontSize="18" Foreground="#3ca9fe" Text="布依阿妈旗舰店"/>
+                <WrapPanel Margin="2">
+                    <TextBlock x:Name="storeOwer" FontSize="12" Foreground="Gray" Text="李朝东"/>
+                    <TextBlock x:Name="storeTel" FontSize="12" Foreground="Gray" Text="0859-3113239" Margin="10,0,0,0"/>
+                </WrapPanel>
+                <WrapPanel>                   
+                    <TextBlock x:Name="stroeRegion" FontSize="12" Foreground="Gray" Text="贵州省黔西南州" Margin="0,0,4,0"/>
+                    <TextBlock x:Name="stroeAddress" FontSize="12" Foreground="Gray" Text="贵州兴义市桔山大道文华路中段（大山小区）" Margin="8,0,4,0"/>
+                </WrapPanel>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Grid>        
