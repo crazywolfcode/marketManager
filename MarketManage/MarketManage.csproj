@@ -8,10 +8,11 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>MarketManage</RootNamespace>
     <AssemblyName>MarketManage</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -68,12 +69,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="api\ApiBase.cs" />
+    <Compile Include="api\DaoApi.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Entity\EcmGoods.cs" />
+    <Compile Include="Entity\EcmGoodsSpec.cs" />
+    <Compile Include="Entity\EcmOrder.cs" />
+    <Compile Include="Entity\EcmStore.cs" />
+    <Compile Include="Entity\EmcGoodsTag.cs" />
+    <Compile Include="Helper\DatabaseOPtionHelper.cs" />
+    <Compile Include="reader\CommondMethod.cs" />
+    <Compile Include="reader\InventoryBuffer.cs" />
+    <Compile Include="reader\OperateTagBuffer.cs" />
+    <Compile Include="reader\ReaderSetting.cs" />
+    <Compile Include="Ui\GoodsManageWindow.xaml.cs">
+      <DependentUpon>GoodsManageWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ui\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\SettingWindow.xaml.cs">
+      <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -113,7 +132,9 @@
     <Resource Include="Themes\Font\iconfont.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="dll\MyHelperLibrary.dll" />
@@ -198,9 +219,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Ui\GoodsManageWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Ui\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ui\SettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

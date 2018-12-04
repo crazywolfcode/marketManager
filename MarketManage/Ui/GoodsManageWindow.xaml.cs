@@ -11,7 +11,7 @@ namespace MarketManage
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class GoodsManageWindow : Window
     {
 
         #region varivable area
@@ -158,36 +158,7 @@ namespace MarketManage
             this.WindowState = WindowState.Minimized;
         }
         #endregion mover
-
-        #region menu
-        private void userHeaderImage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (this.userMenuPopup.IsOpen == false)
-            {
-                this.userMenuPopup.IsOpen = true;
-            }
-            else { this.userMenuPopup.IsOpen = false; }
-        }
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            //setting update request support about quit
-            MenuItem item = sender as MenuItem;
-            switch (item.Tag.ToString())
-            {
-                case "setting":
-                    new SettingWindow().ShowDialog();
-                    break;
-                case "goodsManager":
-                    MessageBox.Show("goods Manager！");
-                    break;
-                case "quit":
-                    this.Close();
-                    break;
-            }
-            this.userMenuPopup.IsOpen = false;
-        }
-        #endregion
-
+        
         private void Window_ContentRendered(object sender, EventArgs e)
         {
         }
