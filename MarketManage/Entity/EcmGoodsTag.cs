@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
- namespace MarketManage
+ namespace 你的名称空间
 {
 
 	 /// <summary>
@@ -12,14 +12,26 @@ using System.Text;
 	 /// </summary>
 
 
-	  public  class EmcGoodsTag
+	  public  class EcmGoodsTag
 	 {
 
 	 /// <summary>
 	 /// 可空:NO
 	 /// </summary>
 
-	 public Int32 id{ get; set; }
+	 public Int32 ic{ get; set; }
+
+	 /// <summary>
+	 /// 可空:NO
+	 /// </summary>
+
+	 public Int32 storeId{ get; set; }
+
+	 /// <summary>
+	 /// 可空:YES
+	 /// </summary>
+
+	 public String storeName{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
@@ -28,10 +40,16 @@ using System.Text;
 	 public Int32 goodsId{ get; set; }
 
 	 /// <summary>
+	 /// 可空:YES
+	 /// </summary>
+
+	 public String goodsName{ get; set; }
+
+	 /// <summary>
 	 /// 可空:NO
 	 /// </summary>
 
-	 public Int32 goodsSpecId{ get; set; }
+	 public Int32 specId{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO

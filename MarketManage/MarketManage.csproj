@@ -77,9 +77,9 @@
     </Compile>
     <Compile Include="Entity\EcmGoods.cs" />
     <Compile Include="Entity\EcmGoodsSpec.cs" />
+    <Compile Include="Entity\EcmGoodsTag.cs" />
     <Compile Include="Entity\EcmOrder.cs" />
     <Compile Include="Entity\EcmStore.cs" />
-    <Compile Include="Entity\EmcGoodsTag.cs" />
     <Compile Include="Helper\DatabaseOPtionHelper.cs" />
     <Compile Include="reader\CommondMethod.cs" />
     <Compile Include="reader\InventoryBuffer.cs" />
