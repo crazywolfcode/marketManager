@@ -18,7 +18,8 @@ namespace MarketManage
         public const string demianurl = "http://www.byam.cn/";
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            new MainWindow().Show();
+            //  new MainWindow().Show();
+            new StoreManageWindow().Show();
         }
     }
 }

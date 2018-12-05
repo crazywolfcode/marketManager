@@ -212,7 +212,7 @@ namespace MarketManage
                     gBrand.Text = "品牌：" + goods.brand;    
                     if (goods.defaultImage != null)
                     {
-                        image.Source = CommonFunction.getImageSource(App.demianurl + goods.defaultImage);
+                        image.Source = CommonFunction.getImageSource(goods.defaultImage);
                     }
                     this.mainBody.Children.Add(element);
                 }                
@@ -248,13 +248,10 @@ namespace MarketManage
             Grid grid = sender as Grid;
             if (grid != null) {
                 EcmGoods goods = grid.Tag as EcmGoods;
-
                 if (goods != null) {
-
-                    MessageBox.Show(" 商品详情界面 " + goods.goodsName);
+                    new GoodsDetailWindow(goods).ShowDialog();
                 }
             }
-
         }
 
         private void Element_MouseLeave(object sender, MouseEventArgs e)

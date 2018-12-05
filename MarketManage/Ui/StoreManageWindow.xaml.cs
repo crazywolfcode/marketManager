@@ -137,7 +137,7 @@ namespace MarketManage
                 stroeRegion.Text = store.regionName;
                 stroeAddress.Text = store.address;
                 if (!String.IsNullOrEmpty( store.storeLogo)) {
-                  image.Source = CommonFunction.getImageSource(App.demianurl+store.storeLogo);                   
+                  image.Source = CommonFunction.getImageSource(store.storeLogo);                   
                 }
                 this.mainBody.Children.Add(element);
             }

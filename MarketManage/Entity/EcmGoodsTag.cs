@@ -56,6 +56,11 @@ using System.Text;
 	 /// </summary>
 
 	 public String tag{ get; set; }
+        /// <summary>
+        /// 注释:过期时间 
+        /// 可空:YES
+        /// </summary>
 
-	 }
+        public DateTime expirationDate { get; set; }
+    }
 }

@@ -75,6 +75,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Entity\EcmCoodsElectronics.cs" />
     <Compile Include="Entity\EcmGcategory.cs" />
     <Compile Include="Entity\EcmGoods.cs" />
     <Compile Include="Entity\EcmGoodsSpec.cs" />
@@ -89,6 +90,9 @@
     <Compile Include="reader\ReaderSetting.cs" />
     <Compile Include="Ui\GoodsManageWindow.xaml.cs">
       <DependentUpon>GoodsManageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\GoodsDetailWindow.xaml.cs">
+      <DependentUpon>GoodsDetailWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ui\StoreManageWindow.xaml.cs">
       <DependentUpon>StoreManageWindow.xaml</DependentUpon>
@@ -233,6 +237,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ui\GoodsManageWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ui\GoodsDetailWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

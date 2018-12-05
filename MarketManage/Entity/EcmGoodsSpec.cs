@@ -19,32 +19,32 @@ using System.Text;
 	 /// 可空:NO
 	 /// </summary>
 
-	 public Int32 specId{ get; set; }
+	 public UInt32 specId{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int32 goodsId{ get; set; }
+	 public UInt32 goodsId{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 /// </summary>
 
-	 public String spec1{ get; set; }
+	 public String specOne{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 /// </summary>
 
-	 public String spec2{ get; set; }
+	 public String specTwo{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 /// </summary>
 
-	 public String colorRgb{ get; set; }
+	 //public String colorRgb{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
@@ -64,7 +64,7 @@ using System.Text;
 	 /// 可空:NO
 	 /// </summary>
 
-	 public String sku{ get; set; }
+	// public String sku{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
@@ -78,11 +78,12 @@ using System.Text;
 
 	 public String colorThumbnail{ get; set; }
 
-	 /// <summary>
-	 /// 可空:NO
-	 /// </summary>
+        /// <summary>
+        /// 标签数 默认0
+        /// 
+        /// </summary>
 
-	 public Int16 ifColorImage{ get; set; }
+        public Int32 tagCount{ get; set; }
 
 	 }
 }

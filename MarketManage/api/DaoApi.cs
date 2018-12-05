@@ -43,7 +43,16 @@ namespace MarketManage
             return list;
         }
 
- 
+        public List<EcmGoodsSpec> GoodsSpecList(int goodsId)
+        {
+            List<EcmGoodsSpec> list = new List<EcmGoodsSpec>();
+            String field = " spec_id,goods_id,spec_1 as spec_one,spec_2 as spec_two,price,stock,color_image_url,color_thumbnail,tag_count ";
+            String condition = "goods_id = " + goodsId;
+            String sql = DatabaseOPtionHelper.GetInstance().getSelectSqlNoSoftDeleteCondition(TableName.ecm_goods_spec.ToString(),field,condition);
+            list = DatabaseOPtionHelper.GetInstance().select<EcmGoodsSpec>(sql);
+            return list;
+        }
+
         public bool isConn(string addres)
         {
             return DatabaseOPtionHelper.GetInstance().CheckConn(addres);
