@@ -108,7 +108,7 @@
                 <ControlTemplate TargetType="{x:Type ListViewItem}">
                     <Border x:Name="Bd" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" Margin="{TemplateBinding Margin}">
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="{Binding cateName}" VerticalAlignment="Center" Margin="20,0,0,0" TextWrapping="Wrap" Padding="2"/>
+                            <TextBlock Text="{Binding cateName}" VerticalAlignment="Center" Margin="60,0,0,0" TextWrapping="Wrap" Padding="2"/>
                         </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -165,4 +165,5 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="SelectionMode" Value="Single"/>
     </Style>
+
 </ResourceDictionary>

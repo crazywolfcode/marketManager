@@ -78,6 +78,15 @@ namespace MarketManage
 
         private void BindingStoreItem()
         {
+            MyCustomControlLibrary.MMessageBox.GetInstance().ShowLoading(
+               MyCustomControlLibrary.MMessageBox.LoadType.Foure,
+               "Loading...",
+              new Point(0, 0),
+               new Size(200, 120),
+               "&#xe752;",
+               Orientation.Vertical,
+               "#ffffff",
+               5);
             if (storeList.Count <= 0)
             {
                 Alert("获取商城失败;");
@@ -93,8 +102,23 @@ namespace MarketManage
             {
                 path = MyHelper.FileHelper.GetRunTimeRootPath() + "/storeItem.xaml";
             }
-            for (int i = 0; i < storeList.Count; i++)
+            int count = storeList.Count;
+            EcmStore store;
+
+            store = new EcmStore()
             {
+                storeId = 0,
+                storeName = "平台商品",
+                ownerName = "平台",
+                regionName = "平台",
+                address = "平台",
+                tel = "000-0000-00",
+                storeLogo = ""
+            };
+            storeList.Insert(0,store);
+            for (int i = 0; i < count; i++)
+            {
+       
                 Grid element = (Grid)CommonFunction.getFrameworkElementFromXaml(path);              
                 element.MouseMove += Element_MouseMove;
                 element.MouseLeave += Element_MouseLeave;
@@ -106,20 +130,18 @@ namespace MarketManage
                 TextBlock stroeRegion = element.FindName("stroeRegion") as TextBlock;
                 TextBlock stroeAddress = element.FindName("stroeAddress") as TextBlock;
                 Image image = element.FindName("storeImg") as Image;
-
-                EcmStore store = storeList[i];
+                store = storeList[i];
                 storeName.Text = store.storeName;
                 storeOwer.Text = store.ownerName;
                 storeTel.Text = store.tel;
                 stroeRegion.Text = store.regionName;
                 stroeAddress.Text = store.address;
-
-                if (store.storeLogo != null) {
+                if (!String.IsNullOrEmpty( store.storeLogo)) {
                   image.Source = CommonFunction.getImageSource(App.demianurl+store.storeLogo);                   
                 }
                 this.mainBody.Children.Add(element);
             }
-
+            MyCustomControlLibrary.MMessageBox.GetInstance().Close();
         }
         
         private void Element_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

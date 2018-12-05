@@ -8,7 +8,7 @@
         xmlns:myui="clr-namespace:MyCustomControlLibrary;assembly=MyCustomControlLibrary"
         mc:Ignorable="d"
         WindowStyle="None" Activated="Window_Activated" Closing="Window_Closing"
-        Loaded="Window_Loaded" ContentRendered="Window_ContentRendered"
+        Loaded="Window_Loaded" ContentRendered="Window_ContentRendered" SizeChanged="Window_SizeChanged"
         Icon="/MarketManage;component/logo.ico"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowStyle}"
@@ -123,19 +123,21 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Background="#fefefe" >
-                    <StackPanel x:Name="cateListPanel">
-                        <ScrollViewer x:Name="LeftScrollViewer" Style="{DynamicResource DefaultScrollViewer}" VerticalScrollBarVisibility="Auto">
-                            <StackPanel x:Name="CateListPanel"  Width="{Binding Source=ScrollViewer,Path=ActualWidth}" >
-                                <!--<RadioButton x:Name="sqliteBtn" Style="{DynamicResource menuRadioButtonStyle}" Height="28" Foreground="#696969"  IsChecked="False" >时尚休闲男装</RadioButton>-->
-                            </StackPanel>
-                        </ScrollViewer>
+                    <StackPanel>
+                        <myui:MyScrollViewer  x:Name="LeftScrollViewer"  Padding="0,0,0,2"  Background="Transparent" >                          
+                                <StackPanel x:Name="CateListPanel"  >
+                                    <!--<RadioButton x:Name="sqliteBtn" Style="{DynamicResource menuRadioButtonStyle}" Height="28" Foreground="#696969"  IsChecked="False" >时尚休闲男装</RadioButton>-->
+                                </StackPanel>                                          
+                        </myui:MyScrollViewer>
                     </StackPanel>
                 </Border>
                 <GridSplitter Grid.Column="1" Width="2" />
                 <Border Grid.Column="2">
-                    <StackPanel x:Name="goodsListPanel">
-                        
-                    </StackPanel>
+                    <myui:MyScrollViewer  x:Name="RightScrollViewer"  Padding="0,0,0,2"  Background="Transparent" >
+                        <StackPanel x:Name="mainBody" VerticalAlignment="Top">
+
+                        </StackPanel>
+                    </myui:MyScrollViewer>
                 </Border>
             </Grid>
             

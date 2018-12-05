@@ -14,6 +14,6 @@ namespace MarketManage
 
         List<EcmGcategory> GetGCateList(int storeId, int parentid =0);
 
-        
+        List<EcmGoods> GetGoodsList(int cateid,int storeId);
     }
 }

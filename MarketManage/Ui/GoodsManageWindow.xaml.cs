@@ -68,14 +68,26 @@ namespace MarketManage
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.LeftScrollViewer.Height = RootView.ActualHeight;   
+            this.LeftScrollViewer.Height = RootView.ActualHeight;
+            this.RightScrollViewer.Height = RootView.ActualHeight;
+            
+            this.TitleTb.Text = mStore.storeName;
+        }
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            FillData();
         }
 
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+           this.LeftScrollViewer.Height = RootView.ActualHeight;
+            this.RightScrollViewer.Height = RootView.ActualHeight;
+        }
         private void FillData() {
             MyCustomControlLibrary.MMessageBox.GetInstance().ShowLoading(
                   MyCustomControlLibrary.MMessageBox.LoadType.Foure,
-                  "Loading...",
-                 new Point(0, 0),
+                  "加载...",
+                  new Point(0, 0),
                   new Size(200,120),
                   "&#xe752;",
                   Orientation.Vertical,
@@ -84,38 +96,68 @@ namespace MarketManage
             getCateList();
 
             if (GCateList.Count > 0) {
-                this.cateListPanel.Children.Clear();
+                this.CateListPanel.Children.Clear();
+                EcmGcategory ecmGcategory;
                 for (int i = 0; i < GCateList.Count; i++)
                 {
-                    Expander expander = new Expander();
-                    expander.Style = FindResource(ResourceName.BaseDataExpenderStyle.ToString()) as Style;
-                    expander.Header = GCateList[i].cateName;
-                    expander.Tag = GCateList[i];
-                    expander.Expanded += Expander_Expanded;            
-                    List<EcmGcategory> templist = getSubCateList((int)GCateList[i].cateId);
-                    if (templist.Count > 0) {
-                        ListView listView = new ListView();
-                        listView.Style = FindResource(ResourceName.BaseDataListViewStyle.ToString()) as Style;
-                        listView.ItemsSource = templist;
-                        listView.ItemContainerStyle = FindResource(ResourceName.ListViewItemCateStyle.ToString()) as Style;
-                        listView.SelectionChanged += ListView_SelectionChanged;
-                        expander.Content = listView;
-                    }                   
-                    this.cateListPanel.Children.Add(expander);
+                    ecmGcategory = GCateList[i];                   
+                    this.CateListPanel.Children.Add(BuildUI(ecmGcategory));                                   
                 }
             }
+            MyCustomControlLibrary.MMessageBox.GetInstance().Close();
+        }
+
+     private  UIElement BuildUI(EcmGcategory gcategory) {
+            List<EcmGcategory> templist = getSubCateList((int)gcategory.cateId);  
+            Expander expander = new Expander();
+            expander.Style = FindResource(ResourceName.BaseDataExpenderStyle.ToString()) as Style;
+            expander.Header = gcategory.cateName;
+            expander.Tag = gcategory;
+            expander.Expanded += Expander_Expanded;
+            if (templist.Count > 0)
+            {
+                StackPanel panel = new StackPanel();
+                for (int j = 0; j < templist.Count; j++)
+                {
+                    List<EcmGcategory> dstemplist = getSubCateList((int)templist[j].cateId);                    
+                    Expander sexpander = new Expander();
+                    sexpander.Style = FindResource(ResourceName.BaseDataExpenderStyle.ToString()) as Style;
+                    sexpander.Header ="     "+ templist[j].cateName;
+                    sexpander.Tag = templist[j];
+                    sexpander.Expanded += Expander_Expanded;
+                    if (dstemplist.Count > 0)
+                    {                   
+                        ListView listView = new ListView();
+                        listView.Style = FindResource(ResourceName.BaseDataListViewStyle.ToString()) as Style;
+                        listView.ItemsSource = dstemplist;
+                        listView.ItemContainerStyle = FindResource(ResourceName.ListViewItemCateStyle.ToString()) as Style;
+                        //listView.SelectionChanged += ListView_SelectionChanged;
+                        listView.MouseLeftButtonUp += ListView_MouseLeftButtonUp;
+                        sexpander.Content = listView;
+                    }
+                    panel.Children.Add(sexpander);
+                }
+                expander.Content = panel;
+            }
+            return expander;
+        }
+
+        private void ListView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ListView_SelectionChanged(sender, null);
         }
 
         private void Expander_Expanded(object sender, RoutedEventArgs e)
         {
             Expander expander = sender as Expander;
-            if (expander.Tag is EcmGcategory gcategory)
+            EcmGcategory gcategory = expander.Tag as EcmGcategory;
+            if (gcategory != null)
             {
-                MessageBox.Show(gcategory.cateName);
-            }
-            if (expander.HasContent == false) {
-              //TODO
-            }
+                if (expander.HasContent == false)
+                {
+                    FillGoosdsData(gcategory);
+                }
+            }            
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -125,8 +167,69 @@ namespace MarketManage
             {
                 return;
             }
-            MessageBox.Show(((EcmGcategory)lv.SelectedItem).cateName);
+            if (lv != null)
+            {
+                EcmGcategory gcategory = lv.SelectedItem as EcmGcategory;
+                if (gcategory != null)
+                {
+                    FillGoosdsData(gcategory);
+                }
+            }
         }
+        /// <summary>
+        /// 显示分类下的商品
+        /// </summary>
+        /// <param name="gcategory"></param>
+        private void  FillGoosdsData(EcmGcategory gcategory) {
+            List<EcmGoods> goodsList = GetGoods((int)gcategory.cateId, (int)gcategory.storeId);
+            if (goodsList.Count > 0) {
+                this.mainBody.Children.Clear();
+                string path = string.Empty;
+                if (App.DEBUG == true)
+                {
+                    path = MyHelper.FileHelper.GetProjectRootPath() + "/Ui/goodsItem.xaml";
+                }
+                else
+                {
+                    path = MyHelper.FileHelper.GetRunTimeRootPath() + "/goodsItem.xaml";
+                }
+                for (int i = 0; i < goodsList.Count; i++)
+                {
+                    Grid element = (Grid)CommonFunction.getFrameworkElementFromXaml(path);
+                    element.MouseMove += Element_MouseMove;
+                    element.MouseLeave += Element_MouseLeave;
+                    element.Tag =goodsList[i];
+                    element.MouseLeftButtonUp += Element_MouseLeftButtonUp;
+                    TextBlock gName = element.FindName("gName") as TextBlock;
+                    TextBlock gsName = element.FindName("gsName") as TextBlock;
+                    TextBlock gCate = element.FindName("gCate") as TextBlock;
+                    TextBlock gBrand = element.FindName("gBrand") as TextBlock;                 
+                    Image image = element.FindName("img") as Image;
+                    EcmGoods goods = goodsList[i];
+                    gName.Text = goods.goodsName;
+                    gsName.Text = goods.goodsSubname;
+                    gCate.Text ="分类："+ goods.cateName;
+                    gBrand.Text = "品牌：" + goods.brand;    
+                    if (goods.defaultImage != null)
+                    {
+                        image.Source = CommonFunction.getImageSource(App.demianurl + goods.defaultImage);
+                    }
+                    this.mainBody.Children.Add(element);
+                }                
+            } else {
+                //没有商品数据时，显示提示信息
+                FillEmptyData(gcategory.cateName);
+            }
+        }
+
+        /// <summary>
+        /// 没有商品数据时，显示提示信息
+        /// </summary>
+        private void FillEmptyData(String catename) {
+            this.mainBody.Children.Clear();
+            this.mainBody.Children.Add(new TextBlock() {Text = catename+": 类别下没有商品" ,HorizontalAlignment =HorizontalAlignment.Center,Margin=new Thickness(10.0)});
+        }
+        #region get data
         private void getCateList()
         {
             GCateList = new DaoApi().GetGCateList((Int32)mStore.storeId);
@@ -135,34 +238,30 @@ namespace MarketManage
         {
           return new DaoApi().GetGCateList((Int32)mStore.storeId,parentid);
         }
-        private void Window_ContentRendered(object sender, EventArgs e)
-        {
-            FillData();
+        private List<EcmGoods> GetGoods(int cateid,int storeid) {
+            return new DaoApi().GetGoodsList(cateid,storeid);
         }
-
-        private void BindingCateItem()
-        {
-            if (GCateList.Count <= 0)
-            {
-                //Alert("获取商下的分类失败;");
-                return;
-            }
-     
-        }
+        #endregion get data
         
         private void Element_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Grid grid = sender as Grid;
-            int index = Convert.ToInt32(grid.Tag.ToString());
-          //TODO
+            if (grid != null) {
+                EcmGoods goods = grid.Tag as EcmGoods;
+
+                if (goods != null) {
+
+                    MessageBox.Show(" 商品详情界面 " + goods.goodsName);
+                }
+            }
+
         }
 
         private void Element_MouseLeave(object sender, MouseEventArgs e)
         {
             Grid grid = sender as Grid;
             Border mainBorder = grid.FindName("main") as Border;
-            mainBorder.Background = (Brush)App.Current.Resources["F9"];        
-          
+            mainBorder.Background = (Brush)App.Current.Resources["F9"];     
         }
 
         private void Element_MouseMove(object sender, MouseEventArgs e)

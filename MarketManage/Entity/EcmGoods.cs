@@ -19,14 +19,14 @@ using System.Text;
 	 /// 可空:NO
 	 /// </summary>
 
-	 public Int32 goodsId{ get; set; }
+	 public UInt32 goodsId{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int32 storeId{ get; set; }
+	 public UInt32 storeId{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
@@ -59,7 +59,7 @@ using System.Text;
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int32 cateId{ get; set; }
+	 public UInt32 cateId{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
@@ -97,27 +97,27 @@ using System.Text;
 	 ///默认值:1
 	 /// </summary>
 
-	 public Int16 ifShow{ get; set; }
+	// public Int16 ifShow{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 /// </summary>
 
-	 public Int16 ifColorImage{ get; set; }
-
-	 /// <summary>
-	 /// 可空:NO
-	 ///默认值:0
-	 /// </summary>
-
-	 public Int16 closed{ get; set; }
+	 // public Int16 ifColorImage{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int16 ifOpen{ get; set; }
+	// public Int16 closed{ get; set; }
+
+	 /// <summary>
+	 /// 可空:NO
+	 ///默认值:0
+	 /// </summary>
+
+	 //public Int16 ifOpen{ get; set; }
 
 	 /// <summary>
 	 /// 可空:YES
@@ -130,21 +130,21 @@ using System.Text;
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int32 addTime{ get; set; }
+	 public UInt32 addTime{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int32 lastUpdate{ get; set; }
+	 public UInt32 lastUpdate{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int32 defaultSpec{ get; set; }
+	 public UInt32 defaultSpec{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
@@ -164,28 +164,28 @@ using System.Text;
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int32 cateId1{ get; set; }
+	 public UInt32 cateId1{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int32 cateId2{ get; set; }
+	 public UInt32 cateId2{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int32 cateId3{ get; set; }
+	 public UInt32 cateId3{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int32 cateId4{ get; set; }
+	 public UInt32 cateId4{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
@@ -213,7 +213,7 @@ using System.Text;
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int32 integralMaxExchange{ get; set; }
+	 public UInt32 integralMaxExchange{ get; set; }
 
 	 /// <summary>
 	 /// 注释:商城推荐
@@ -229,14 +229,14 @@ using System.Text;
 	 ///默认值:255
 	 /// </summary>
 
-	 public Int16 mallSortOrder{ get; set; }
+	// public Int16 mallSortOrder{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 ///默认值:0
 	 /// </summary>
 
-	 public Int32 virtualSeles{ get; set; }
+	 //public UInt32 virtualSeles{ get; set; }
 
 	 /// <summary>
 	 /// 可空:YES
@@ -248,7 +248,7 @@ using System.Text;
 	 /// 可空:NO
 	 /// </summary>
 
-	 public Int32 deliveryTemplateId{ get; set; }
+	// public UInt32 deliveryTemplateId{ get; set; }
 
 
 

@@ -18,6 +18,23 @@ namespace MarketManage
             return list;
         }
 
+        public List<EcmGoods> GetGoodsList(int cateid, int storeId)
+        {
+            List<EcmGoods> list = new List<EcmGoods>();
+            String condition = String.Empty;
+            if (storeId > 0)
+            {
+                 condition = "store_id = " + storeId + " and cate_id =" + cateid;
+            }
+            else {
+                 condition =" cate_id =" + cateid;
+            }
+            String sql = DatabaseOPtionHelper.GetInstance().getSelectSqlNoSoftDeleteCondition(TableName.ecm_goods.ToString(),null,condition);
+            Console.WriteLine("=== " + sql);
+            list = DatabaseOPtionHelper.GetInstance().select<EcmGoods>(sql);
+            return list;
+        }
+
         public List<EcmStore> GetStoreList()
         {
             List<EcmStore> list = new List<EcmStore>();

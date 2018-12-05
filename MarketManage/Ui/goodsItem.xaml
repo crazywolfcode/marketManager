@@ -1,0 +1,27 @@
+﻿<Grid Margin="10,10,10,0"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:myUi="clr-namespace:MyCustomControlLibrary;assembly=MyCustomControlLibrary"
+        xmlns:local="clr-namespace:MarketManage"
+      >
+    <Grid.RowDefinitions>
+        <RowDefinition Height="4" />
+        <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Border CornerRadius="4,4,0,0" Grid.Row="0" Padding="10" Background="{StaticResource E4}"></Border>
+    <Border Grid.Row="1" CornerRadius="0,0,4,4" x:Name="main" Padding="10" Background="{StaticResource F9}">
+        <StackPanel Orientation="Horizontal">
+            <Image x:Name="img" Source="/MarketManage;component/logo.ico" Width="60" Stretch="Fill"/>
+            <StackPanel Margin="6">
+                <TextBlock x:Name="gName" FontWeight="Bold" FontSize="16" Foreground="#3ca9fe" Text=" 纯手工制作 纯棉四件套"/>
+                <WrapPanel Margin="2">
+                    <TextBlock x:Name="gsName" FontSize="12" Foreground="Gray" Text="纯棉四件套 "/>
+                </WrapPanel>
+                <WrapPanel>
+                    <TextBlock x:Name="gCate" FontSize="12" Foreground="Gray" Text="家纺日用	床品件套" Margin="0,0,4,0"/>
+                    <TextBlock x:Name="gBrand" FontSize="12" Foreground="Gray" Text="布依阿妈" Margin="8,0,4,0"/>
+                </WrapPanel>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Grid>        
