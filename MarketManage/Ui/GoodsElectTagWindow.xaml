@@ -1,4 +1,4 @@
-﻿<Window x:Class="MarketManage.GoodsDetailWindow"
+﻿<Window x:Class="MarketManage.GoodsElectTagWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,7 +12,7 @@
         Icon="/MarketManage;component/logo.ico"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowStyle}"
-        Title="商品规格详情" Height="680" Width="860">
+        Title="商品规格电子标签管理" Height="680" Width="860">
     <Grid Margin="2">
         <Grid.RowDefinitions>
             <RowDefinition Height="64"/>
@@ -22,7 +22,7 @@
         <Border Grid.Row="0" CornerRadius="4,4,0,0" x:Name="headerBorder" MouseMove="headerBorder_MouseMove"  Background="{StaticResource E4}">
             <StackPanel Orientation="Horizontal" Background="Transparent" MouseMove="headerBorder_MouseMove">
                 <Image Source="/MarketManage;component/logo.ico" Width="48" Height="48" HorizontalAlignment="Left" Margin="10" Stretch="UniformToFill" ></Image>
-                <TextBlock HorizontalAlignment="Left" Margin="0,0,0,0" Text="商品规格详情" VerticalAlignment="Center" FontSize="20" FontWeight="Black" Foreground="#787972"></TextBlock>           
+                <TextBlock HorizontalAlignment="Left" Margin="0,0,0,0" Text="商品规格电子标签管理" VerticalAlignment="Center" FontSize="20" FontWeight="Black" Foreground="#787972"></TextBlock>           
             </StackPanel>
         </Border>
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Margin="0,3,3,0" >
@@ -65,38 +65,84 @@
         </StackPanel>
 
         <Border Background="White" Margin="0,0,0,0" Grid.Row="1">
-            <ScrollViewer Style="{DynamicResource DefaultScrollViewer}" VerticalScrollBarVisibility="Auto">
-                <StackPanel>
-                <StackPanel VerticalAlignment="Top" x:Name="mainBody" Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0">
-                    <Image x:Name="img" Source="http://www.byam.cn/data/files/store_196/other/store_logo.jpg" Stretch="Fill" Width="100"/>
-                    <TextBlock x:Name="tb" Text=" " FontSize="14" Foreground="#666" Margin="10,0,0,0" VerticalAlignment="Bottom"/>
+            <DockPanel LastChildFill="True">
+                <StackPanel Height="35" x:Name="ToolBarPanel" DockPanel.Dock="Top" Margin="0,0,10,0" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal" >
+                        <!--<myui:IconButton                
+                          IsTransparency="True"
+                           MouseOverForeground="{DynamicResource myBlue}"
+                           VerticalAlignment="Bottom"
+                           IsShowIcon="True" Icon="&#xe617;" IconSize="28"
+                           Width="30" Height="30" IconMargin="-2,0,0,0"
+                            Margin="0,0,4,0" />
+                        <myui:IconButton 
+                           IsTransparency="True"
+                           MouseOverForeground="{DynamicResource myBlue}"
+                           VerticalAlignment="Bottom" 
+                           IsShowIcon="True" Icon="&#xe61f;" IconSize="28"
+                           Width="30" Height="30" IconMargin="-2,0,0,0"
+                            Margin="0,0,4,0"
+                         />
+                        <myui:IconButton 
+                          IsTransparency="True" 
+                           MouseOverForeground="{DynamicResource myBlue}"
+                           VerticalAlignment="Bottom" 
+                            Foreground="Orange"
+                           IsShowIcon="True" Icon="&#xe644;" IconSize="28"
+                           Width="30" Height="30" IconMargin="-2,0,0,0"
+                            Margin="0,0,4,0"
+                         />-->
+                        <myui:IconButton 
+                           ToolTip="添加电子标签"
+                          IsTransparency="True"
+                          MouseOverForeground="{DynamicResource myBlue}"
+                          VerticalAlignment="Bottom" 
+                          Foreground="Green"
+                          IsShowIcon="True" Icon="&#xe610;" IconSize="24"
+                          Width="30" Height="30" IconMargin="-2,0,0,0"
+                          Margin="0,0,4,0"
+                         />
+                        <myui:IconButton       
+                            ToolTip="更多操作"
+                            IsTransparency="True"
+                            MouseOverForeground="{DynamicResource myBlue}"
+                            VerticalAlignment="Bottom" 
+                            IsShowIcon="True" Icon="&#xe8c4;" IconSize="28"
+                            Width="30" Height="30" IconMargin="-2,0,0,0"
+                            Margin="0,0,4,0"
+                         />
+                    </StackPanel>
                 </StackPanel>
-                    <StackPanel Margin="10">
-                        <ListView  Margin="20" Padding="10" x:Name="spec_lv" BorderThickness="0">
+                <ScrollViewer Style="{DynamicResource DefaultScrollViewer}" VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="mainBody" >
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0">
+                            <Image x:Name="img" Source="http://www.byam.cn/data/files/store_196/other/store_logo.jpg" Stretch="Fill" Width="90"/>
+                            <StackPanel>
+                                <TextBlock x:Name="goodsNmaeTb" Text="a d  " FontSize="14" Foreground="#666" Margin="10,0,0,0" VerticalAlignment="Top" Height="30" Padding="4,8,0,0"/>
+                                <StackPanel  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,0,0"> 
+                                    <Image x:Name="thumbImg" Source="http://www.byam.cn/data/files/store_196/other/store_logo.jpg" Stretch="Fill" Width="40" VerticalAlignment="Bottom"/>
+                                    <TextBlock x:Name="specTb" Text=" " FontSize="14" Foreground="#797979" Margin="10,0,0,0" VerticalAlignment="Bottom"/>
+                                </StackPanel>
+                            </StackPanel>                            
+                        </StackPanel>
+                        <StackPanel Height="2" Background="#e4e4e4"/>
+                        <ListView  Padding="10" x:Name="tag_lv" BorderThickness="0" Margin="6">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
+                                    <Setter Property="BorderThickness" Value="0"/>
                                     <Setter Property="Height" Value="40" />
                                     <Setter Property="Margin" Value="0,2,0,2"/>
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                                <Border x:Name="Bd" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" Margin="{TemplateBinding Margin}" BorderBrush="#e4e4e4" BorderThickness="0,0,0,1">                                                    
-                                                        <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
-                                                        <Image Width="30" Height="30" Stretch="Fill" Source="{Binding colorThumbnail ,Converter={StaticResource imageUrlCoverter}}"/>
-                                                        <TextBlock Text="商品编号" VerticalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Padding="2" FontSize="14"/>
-                                                            <TextBlock Text="{Binding goodsId}" VerticalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Padding="2" FontSize="14"/>
-                                                        <TextBlock Text="{Binding specOne}" VerticalAlignment="Center" Margin="10,0,0,0" TextWrapping="Wrap" Padding="2" FontSize="14"/>
-                                                        <TextBlock Text="{Binding specTwo}" VerticalAlignment="Center" Margin="10,0,0,0" TextWrapping="Wrap" Padding="2" FontSize="14"/>
-                                                            <TextBlock Text="￥" VerticalAlignment="Center" Margin="10,0,0,0" TextWrapping="Wrap" Padding="2" FontSize="14"  Foreground="Red"/>
-                                                            <TextBlock Text="{Binding price}" VerticalAlignment="Center"  TextWrapping="Wrap" Padding="2" FontSize="14"/>
-                                                        <TextBlock Text="库存:" VerticalAlignment="Center" Margin="10,0,1,0" TextWrapping="Wrap" Padding="2" FontSize="14"/>
-                                                        <TextBlock Text="{Binding stock}" VerticalAlignment="Center" Margin="0" TextWrapping="Wrap" Padding="2" FontSize="14"/>
-                                                        <TextBlock Text="标签数:" VerticalAlignment="Center" Margin="10,0,1,0" TextWrapping="Wrap" Padding="2" FontSize="14"/>
-                                                        <TextBlock Text="{Binding tagCount}" VerticalAlignment="Center" Margin="0" TextWrapping="Wrap" Padding="2" FontSize="14"/>
+                                                <Border x:Name="Bd" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" Margin="{TemplateBinding Margin}" BorderBrush="#e4e4e4" BorderThickness="0,0,0,1">
+                                                    <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Right">
+                                                        <TextBlock x:Name="epcTb" Text="{Binding epc}"  FontSize="14" Padding="2"/>
+                                                        <TextBlock x:Name="SellStatusTb" Text="{Binding isSellOut,Converter={StaticResource tagSellStatusConverter}}" Margin="10,0,0,0"  FontSize="14" Padding="2"/>
                                                         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20,0,0,0">
-                                                                <myui:IconButton x:Name="bindETag" Icon="&#xe60c;" Width="28" Height="28" ToolTip="设置电子标签" Tag="{Binding}" Click="bindETag_Click" IconMargin="2" IconSize="20" Foreground="#3ca9fe" Background="Transparent"/>
-                                                            </StackPanel>                                                          
-                                                    </WrapPanel>                       
+                                                            <myui:IconButton x:Name="DeleteETagBtn" Icon="&#xe615;" Width="28" Height="28" ToolTip="删除失效的电子标签" Tag="{Binding}" Click="deleteETag_Click" IconMargin="2" IconSize="20" Foreground="#3ca9fe" IsTransparency="True"/>
+                                                        </StackPanel>
+                                                    </WrapPanel>
                                                 </Border>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsSelected" Value="true">
@@ -132,13 +178,14 @@
                                         </Setter.Value>
                                     </Setter>
                                 </Style>
-                            </ListView.ItemContainerStyle>                            
+                            </ListView.ItemContainerStyle>
                         </ListView>
                     </StackPanel>
-             </StackPanel>
-            </ScrollViewer>
+                </ScrollViewer>
+            </DockPanel>         
+   
         </Border>
-
+        <!--statusBar-->
         <Border Grid.Row="2" CornerRadius="0,0,4,4"   Background="{StaticResource F9}">
             <StatusBar local:ControlAttachProperty.CornerRadius="0,0,4,4" x:Name="sb">
                 <StatusBar.Style>

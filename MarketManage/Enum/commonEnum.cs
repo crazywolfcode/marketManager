@@ -26,7 +26,9 @@ namespace MarketManage
         ecm_store,
         ecm_gcategory,
         ecm_goods,
-        ecm_goods_spec
+        ecm_goods_spec,
+        ecm_goods_tag,
+        ecm_goods_electronics
     }
 
 }

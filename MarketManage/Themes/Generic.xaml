@@ -13,6 +13,10 @@
         <ResourceDictionary Source="/MarketManage;component/Style/TabButtonStyle.xaml"></ResourceDictionary>
        
     </ResourceDictionary.MergedDictionaries>
+
+    <local:ImageUrlCoverter  x:Key="imageUrlCoverter"/>
+    <local:TagSellStatusConverter  x:Key="tagSellStatusConverter"/>
+   
     <ControlTemplate x:Key="BaseDataExpenderControlTemplate" TargetType="Expander">
         <Border x:Name="ExpanderBorder" BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}" 

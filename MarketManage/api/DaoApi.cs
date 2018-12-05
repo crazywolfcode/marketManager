@@ -43,6 +43,16 @@ namespace MarketManage
             return list;
         }
 
+        public List<EcmGoodsTag> getTagList(int goodsId, int specId)
+        {
+            List<EcmGoodsTag> list = new List<EcmGoodsTag>();
+            String order = " is_sell_out asc ";
+            String condition = "goods_id = " + goodsId + " and spec_id =" + specId;
+            String sql = DatabaseOPtionHelper.GetInstance().getSelectSqlNoSoftDeleteCondition(TableName.ecm_goods_tag.ToString(),null,condition,null,null,order);
+            list = DatabaseOPtionHelper.GetInstance().select<EcmGoodsTag>(sql);
+            return list;
+        }
+
         public List<EcmGoodsSpec> GoodsSpecList(int goodsId)
         {
             List<EcmGoodsSpec> list = new List<EcmGoodsSpec>();

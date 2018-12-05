@@ -75,6 +75,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Convertor\ImageUrlCoverter.cs" />
+    <Compile Include="Convertor\TagSellStatusConverter.cs" />
     <Compile Include="Entity\EcmCoodsElectronics.cs" />
     <Compile Include="Entity\EcmGcategory.cs" />
     <Compile Include="Entity\EcmGoods.cs" />
@@ -88,6 +90,9 @@
     <Compile Include="reader\InventoryBuffer.cs" />
     <Compile Include="reader\OperateTagBuffer.cs" />
     <Compile Include="reader\ReaderSetting.cs" />
+    <Compile Include="Ui\GoodsElectTagWindow.xaml.cs">
+      <DependentUpon>GoodsElectTagWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ui\GoodsManageWindow.xaml.cs">
       <DependentUpon>GoodsManageWindow.xaml</DependentUpon>
     </Compile>
@@ -221,6 +226,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ui\GoodsElectTagWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

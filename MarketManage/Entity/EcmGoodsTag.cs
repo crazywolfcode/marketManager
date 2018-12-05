@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
- namespace 你的名称空间
+ namespace MarketManage
 {
 
 	 /// <summary>
@@ -19,13 +19,13 @@ using System.Text;
 	 /// 可空:NO
 	 /// </summary>
 
-	 public Int32 ic{ get; set; }
+	 public UInt32 id{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 /// </summary>
 
-	 public Int32 storeId{ get; set; }
+	 public UInt32 storeId{ get; set; }
 
 	 /// <summary>
 	 /// 可空:YES
@@ -37,7 +37,7 @@ using System.Text;
 	 /// 可空:NO
 	 /// </summary>
 
-	 public Int32 goodsId{ get; set; }
+	 public UInt32 goodsId{ get; set; }
 
 	 /// <summary>
 	 /// 可空:YES
@@ -49,7 +49,7 @@ using System.Text;
 	 /// 可空:NO
 	 /// </summary>
 
-	 public Int32 specId{ get; set; }
+	 public UInt32 specId{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
@@ -62,5 +62,11 @@ using System.Text;
         /// </summary>
 
         public DateTime expirationDate { get; set; }
+        /// <summary>
+        ///   是否售出 0 未 1 售出
+        ///  默认 0
+        /// </summary>
+        public Int32 isSellOut { get; set; }
+
     }
 }

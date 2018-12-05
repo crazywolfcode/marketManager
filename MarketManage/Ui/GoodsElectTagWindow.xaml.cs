@@ -13,12 +13,13 @@ namespace MarketManage
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class GoodsDetailWindow : Window
+    public partial class GoodsElectTagWindow : Window
     {
 
         #region varivable area
-        EcmGoods mEcmGoods;
-        private List<EcmGoodsSpec> mEcmGoodsSpecList;
+        private EcmGoodsSpec mEcmGoodsSpec;
+        private EcmGoods mEcmGoods;
+        private List<EcmGoodsTag> mEcmGoodsTagList;
         #endregion
         #region max min close mover
         private void headerBorder_MouseMove(object sender, MouseEventArgs e)
@@ -52,11 +53,12 @@ namespace MarketManage
         }
         #endregion mover
 
-        public GoodsDetailWindow(EcmGoods goods)
+        public GoodsElectTagWindow(EcmGoodsSpec spec, EcmGoods goods = null) 
         {
             InitializeComponent();
+            mEcmGoodsSpec = spec;
             mEcmGoods = goods;
-            if (mEcmGoods == null) {
+            if (mEcmGoodsSpec == null) {
                 this.Close();
             }
             new WindowBehavior(this).RepairWindowDefaultBehavior();
@@ -68,17 +70,27 @@ namespace MarketManage
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.tb.Text = mEcmGoods.goodsName;
             this.img.Source = CommonFunction.getImageSource(mEcmGoods.defaultImage);
-            
+            this.thumbImg.Source = CommonFunction.getImageSource(mEcmGoodsSpec.colorThumbnail);
+            this.goodsNmaeTb.Text = mEcmGoods.goodsName;
+            this.specTb.Text = mEcmGoodsSpec.specOne + "    " + mEcmGoodsSpec.specTwo + "      ￥" + mEcmGoodsSpec.price + "  库存：" + mEcmGoodsSpec.stock + "    标签数:" + mEcmGoodsSpec.tagCount;
         }
         
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            mEcmGoodsSpecList = new DaoApi().GoodsSpecList((int)mEcmGoods.goodsId);
-            this.spec_lv.ItemsSource = mEcmGoodsSpecList;
-        }        
+            FillTagData();
+        }
+
+        private void FillTagData() {
+            mEcmGoodsTagList = new DaoApi().getTagList((int)mEcmGoods.goodsId,(int)mEcmGoodsSpec.specId);           
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void deleteETag_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -114,12 +126,6 @@ namespace MarketManage
             statusInfoTextBlock.Text = message;
         }
 
-        #endregion
-        private void bindETag_Click(object sender, RoutedEventArgs e)
-        {
-            MyCustomControlLibrary.IconButton button = sender as MyCustomControlLibrary.IconButton;
-            EcmGoodsSpec spec = button.Tag as EcmGoodsSpec;
-            new GoodsElectTagWindow(spec,mEcmGoods).ShowDialog();
-        }
+        #endregion      
     }
 }

@@ -17,6 +17,8 @@ namespace MarketManage
         List<EcmGoods> GetGoodsList(int cateid,int storeId);
 
         List<EcmGoodsSpec> GoodsSpecList(int goodsId);
+
+        List<EcmGoodsTag> getTagList(int goodsId,int specId);
       
     }
 }

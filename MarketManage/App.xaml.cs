@@ -13,7 +13,6 @@ namespace MarketManage
     /// </summary>
     public partial class App : Application
     {
-
         public const bool DEBUG = true;
         public const string demianurl = "http://www.byam.cn/";
         private void Application_Startup(object sender, StartupEventArgs e)
