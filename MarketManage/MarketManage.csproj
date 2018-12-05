@@ -44,6 +44,9 @@
     <Reference Include="MyLoadingLib">
       <HintPath>..\..\MyLoadingLib\MyLoadingLib\bin\Debug\MyLoadingLib.dll</HintPath>
     </Reference>
+    <Reference Include="Reader">
+      <HintPath>C:\Users\hacker\Desktop\UHF_RFID_Reader_Demo\Reader\bin\Debug\Reader.dll</HintPath>
+    </Reference>
     <Reference Include="SqlDao">
       <HintPath>..\..\..\libary\SqlDao\SqlDao\bin\Debug\SqlDao.dll</HintPath>
     </Reference>
@@ -75,6 +78,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\CallBackHelper.cs" />
     <Compile Include="Convertor\ImageUrlCoverter.cs" />
     <Compile Include="Convertor\TagSellStatusConverter.cs" />
     <Compile Include="Entity\EcmCoodsElectronics.cs" />

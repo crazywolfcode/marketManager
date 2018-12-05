@@ -79,6 +79,11 @@ namespace MarketManage
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             FillTagData();
+
+            //注册事件
+            CallBackHelper.RegisteReadeTagCallBack(mReadeTagCallBack);
+            CallBackHelper.RegisteWriteTagCallBack(mWriteTagCallBack);
+            CallBackHelper.RegisteInventoryRealTagCallBack(mInventoryRealTagCallBack);
         }
 
         private void FillTagData() {
@@ -87,7 +92,10 @@ namespace MarketManage
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
+            //消毁事件
+            CallBackHelper.UnRegisteReadeTagCallBack(mReadeTagCallBack);
+            CallBackHelper.UnRegisteWriteTagCallBack(mWriteTagCallBack);
+            CallBackHelper.UnRegisteInventoryRealTagCallBack(mInventoryRealTagCallBack);
         }
 
         private void deleteETag_Click(object sender, RoutedEventArgs e)
@@ -114,7 +122,7 @@ namespace MarketManage
         private void Information(string message)
         {
             if (true)
-            {
+            {              
                 // #FFCA5100
                 sb.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xCA, 0x51, 0x00));
             }
@@ -126,6 +134,29 @@ namespace MarketManage
             statusInfoTextBlock.Text = message;
         }
 
-        #endregion      
+        #endregion
+
+        #region 注册事件
+        App.ReadeTagCallBack mReadeTagCallBack = new App.ReadeTagCallBack(readeTagCallBack);
+        private static void readeTagCallBack(Reader.MessageTran tran)
+        {
+            //Todo
+            Console.WriteLine("===:TODO");
+        }
+
+        App.WriteTagCallBack mWriteTagCallBack = new App.WriteTagCallBack(writeTagCallBack);
+        private static void writeTagCallBack(Reader.MessageTran tran)
+        {
+            //Todo
+            Console.WriteLine("===:TODO");
+        }
+
+        App.InventoryRealTagCallBack mInventoryRealTagCallBack = new App.InventoryRealTagCallBack(inventoryRealTagCallBack);
+        private static void inventoryRealTagCallBack(Reader.MessageTran tran)
+        {
+            //Todo
+            Console.WriteLine("===:TODO");
+        }
+        #endregion
     }
 }

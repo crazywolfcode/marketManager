@@ -19,7 +19,7 @@ namespace MarketManage
             }
             else {
                 return " 正常";
-            }
+            }            
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

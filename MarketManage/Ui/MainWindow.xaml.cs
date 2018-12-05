@@ -5,6 +5,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.IO.Ports;
+using System.Collections.Generic;
+using Reader;
+
 namespace MarketManage
 {
 
@@ -15,8 +18,11 @@ namespace MarketManage
     {
 
         #region varivable area
-        private DispatcherTimer   mDateTime;
+        private DispatcherTimer mDateTime;
         public SerialPort mSerialPort;
+
+
+        private Reader.ReaderMethod reader;
         #endregion
 
         public MainWindow()
@@ -39,8 +45,10 @@ namespace MarketManage
             CheckReaderLinkStatus();
         }
 
+
         #region  时间 定时器
-        private void StartDateTimeTime() {
+        private void StartDateTimeTime()
+        {
             mDateTime = new DispatcherTimer
             {
                 Interval = new TimeSpan(0, 0, 1)
@@ -57,11 +65,11 @@ namespace MarketManage
         }
 
         private void ChangerApiStatus()
-        {          
+        {
             String apiNomalStr = "数据连接正常";
             String apirErrStr = "数据连接异常";
-            ApiBase api = new DaoApi();  
-            if (api.isConn( null))
+            ApiBase api = new DaoApi();
+            if (api.isConn(null))
             {
                 apiLinkStatusTb.ToolTip = apiNomalStr;
                 apiLinkStatusTb.Foreground = Brushes.Green;
@@ -94,7 +102,7 @@ namespace MarketManage
             };
             if (mSerialPort.IsOpen)
             {
-                mSerialPort.Close();                
+                mSerialPort.Close();
             }
             try
             {
@@ -126,7 +134,7 @@ namespace MarketManage
         {
             UpdateTimeDate();
         }
-        
+
         #region max min close mover
         private void headerBorder_MouseMove(object sender, MouseEventArgs e)
         {
@@ -190,7 +198,222 @@ namespace MarketManage
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
+            //读取器开始工作
+            ReaderStart();
+            //注册事件
+            CallBackHelper.RegisteReadeTagCallBack(mReadeTagCallBack);
+            CallBackHelper.RegisteWriteTagCallBack(mWriteTagCallBack);
+            CallBackHelper.RegisteInventoryRealTagCallBack(mInventoryRealTagCallBack);
         }
+
+        #region 读取器开始工作
+        private void ReaderStart()
+        {
+            if (reader == null)
+            {
+                reader = new Reader.ReaderMethod
+                {
+                    AnalyCallback = AnalyCallback,
+                    SendCallback = SendCallback,
+                    ReceiveCallback = ReceiveCallback
+                };
+            }
+        }
+        /// <summary>
+        /// 发送数据 回调
+        /// </summary>
+        /// <param name="btArySendData"></param>
+        private void SendCallback(byte[] btArySendData)
+        {
+            MyHelper.ConsoleHelper.writeLine("发送数据: " + CommonFunction.ByteArrayToString(btArySendData, 0, btArySendData.Length));
+        }
+        /// <summary>
+        /// 接受到数据 回调
+        /// </summary>
+        /// <param name="btAryReceiveData"></param>
+        private void ReceiveCallback(byte[] btAryReceiveData)
+        {
+            MyHelper.ConsoleHelper.writeLine("接受到数据: " + CommonFunction.ByteArrayToString(btAryReceiveData, 0, btAryReceiveData.Length));
+        }
+        /// <summary>
+        /// 回调事件
+        /// </summary>
+        /// <param name="messageTran"></param>
+        private void AnalyCallback(Reader.MessageTran messageTran)
+        {
+            if (messageTran.PacketType != 0xA0)
+            {
+                return;
+            }
+            switch (messageTran.Cmd)
+            {                
+                case 0x81:
+                    //ProcessReadTag(messageTran);
+                    if (App.readeTagCallBackList.Count > 0) {
+                        for (int i = 0; i < App.readeTagCallBackList.Count; i++)
+                        {
+                            App.readeTagCallBackList[i]?.Invoke(messageTran);
+                        }
+                    }
+                    break;
+                case 0x82:
+                    // ProcessWriteTag(messageTran);
+                    if (App.WriteTagCallBackList.Count > 0) {
+                        for (int i = 0; i < App.WriteTagCallBackList.Count; i++)
+                        {
+                            App.WriteTagCallBackList[i]?.Invoke(messageTran);
+                        }
+                    }
+                    break;
+                case 0x89:
+                case 0x8B:
+                    // ProcessInventoryReal(messageTran);
+                    if (App.inventoryRealTagCallBackList.Count > 0)
+                    {
+                        for (int i = 0; i < App.inventoryRealTagCallBackList.Count; i++)
+                        {
+                            App.inventoryRealTagCallBackList[i]?.Invoke(messageTran);
+                        }
+                    }
+                    break;
+                case 0xb0:
+                    ProcessInventoryISO18000(messageTran);
+                    break;
+                case 0xb1:
+                    ProcessReadTagISO18000(messageTran);
+                    break;
+                case 0xb2:
+                    //ProcessWriteTagISO18000(messageTran);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 读取标签
+        /// </summary>
+        /// <param name="messageTran"></param>
+        private void ProcessReadTagISO18000(Reader.MessageTran messageTran)
+        {
+            string strCmd = "读取标签";
+            string strErrorCode = string.Empty;
+
+            if (messageTran.AryData.Length == 1)
+            {
+                strErrorCode = CommonFunction.FormatErrorCode(messageTran.AryData[0]);
+                string strLog = strCmd + "失败，失败原因： " + strErrorCode;
+
+                Console.WriteLine(strErrorCode + ":"+ strLog);
+            }
+            else
+            {
+                string strAntID = CommonFunction.ByteArrayToString(messageTran.AryData, 0, 1);
+                string strData = CommonFunction.ByteArrayToString(messageTran.AryData, 1, messageTran.AryData.Length - 1);
+                
+                Console.WriteLine(strCmd + ": antID :"+strAntID+" data:"+strData );
+            }
+        }
+
+        private void ProcessInventoryISO18000(Reader.MessageTran messageTran)
+        {
+            string strCmd = "盘存标签";
+            string strErrorCode = string.Empty;
+
+            if (messageTran.AryData.Length == 1)
+            {
+                if (messageTran.AryData[0] != 0xFF)
+                {
+                    strErrorCode = CommonFunction.FormatErrorCode(messageTran.AryData[0]);
+                    string strLog = strCmd + "失败，失败原因： " + strErrorCode;
+
+                    Console.WriteLine(strErrorCode + ":" + strLog);
+                }
+            }
+            else if (messageTran.AryData.Length == 9)
+            {
+                string strAntID = CommonFunction.ByteArrayToString(messageTran.AryData, 0, 1);
+                string strUID = CommonFunction.ByteArrayToString(messageTran.AryData, 1, 8);
+                string data = CommonFunction.ByteArrayToString(messageTran.AryData, 1, 8);
+                string strData = CommonFunction.ByteArrayToString(messageTran.AryData, 1, messageTran.AryData.Length - 1);
+            }
+            else if (messageTran.AryData.Length == 2)
+            {
+              //  m_curOperateTagISO18000Buffer.nTagCnt = Convert.ToInt32(messageTran.AryData[1]);
+
+
+                Console.WriteLine(strErrorCode + ":");
+            }
+            else
+            {
+                strErrorCode = "未知错误";
+                string strLog = strCmd + "失败，失败原因： " + strErrorCode;
+
+                Console.WriteLine(strErrorCode+":"+strLog);
+            }
+        }
+
+
+        //注册事件
+        App.ReadeTagCallBack mReadeTagCallBack = new App.ReadeTagCallBack(readeTagCallBack);
+        private static void readeTagCallBack(Reader.MessageTran messageTran) {
+            //Test            
+                string strCmd = "读标签";
+                string strErrorCode = string.Empty;
+
+                if (messageTran.AryData.Length == 1)
+                {
+                    strErrorCode = CommonFunction.FormatErrorCode(messageTran.AryData[0]);
+                    string strLog = strCmd + "失败，失败原因： " + strErrorCode;
+
+                    Console.WriteLine(strCmd+":"+strErrorCode + strLog);
+                }
+                else
+                {
+                    //读取规则可查看r2000通讯协议用户手册_V2.38   
+                    //data总长度
+                    int nLen = messageTran.AryData.Length;
+                    //Read 操作的数据长度。单位是字节 
+                    int nDataLen = Convert.ToInt32(messageTran.AryData[nLen - 3]);
+                    //所操作标签的有效数据长度(messageTran.AryData[2])   Epc的长度=有效数据长度-PC-CRC-读取的标签数据   pc和crc各占两字节
+                    int nEpcLen = Convert.ToInt32(messageTran.AryData[2]) - nDataLen - 4;
+                    //从数组3开始获取两字节的pc
+                    string strPC = CommonFunction.ByteArrayToString(messageTran.AryData, 3, 2);
+                    //
+                    string strEPC = CommonFunction.ByteArrayToString(messageTran.AryData, 5, nEpcLen);
+                    //
+                    string strCRC = CommonFunction.ByteArrayToString(messageTran.AryData, 5 + nEpcLen, 2);
+                    string strData = CommonFunction.ByteArrayToString(messageTran.AryData, 7 + nEpcLen, nDataLen);
+
+                    byte byTemp = messageTran.AryData[nLen - 2];
+                    byte byAntId = (byte)((byTemp & 0x03) + 1);
+                    //读取当前工作的天线   
+                    string strAntId = byAntId.ToString();
+                    string strReadCount = messageTran.AryData[nLen - 1].ToString();                
+
+                Console.WriteLine("data总长度:"+nLen+ " 操作的数据长度:"+ nDataLen+ " 有效数据长度:"+ nDataLen);
+                Console.WriteLine("Pc:"+strPC+ " epc:"+ strEPC+ " crc:"+ strCRC+" 天线："+strAntId);
+            }
+           
+
+            Console.WriteLine("===:TODO");
+        }
+
+        App.WriteTagCallBack mWriteTagCallBack = new App.WriteTagCallBack(writeTagCallBack);
+        private static void writeTagCallBack(Reader.MessageTran tran)
+        {
+            //Todo
+            Console.WriteLine("===:TODO");
+        }
+
+        App.InventoryRealTagCallBack mInventoryRealTagCallBack = new App.InventoryRealTagCallBack(inventoryRealTagCallBack);
+        private static void inventoryRealTagCallBack(Reader.MessageTran tran)
+        {
+            //Todo
+            Console.WriteLine("===:TODO");
+        }
+        #endregion  读取器开始工作
+        
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (mDateTime != null)

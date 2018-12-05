@@ -56,10 +56,12 @@ namespace MarketManage
         {
             InitializeComponent();
             mEcmGoods = goods;
-            if (mEcmGoods == null) {
+            if (mEcmGoods == null)
+            {
                 this.Close();
             }
             new WindowBehavior(this).RepairWindowDefaultBehavior();
+
         }
 
         private void Window_Activated(object sender, EventArgs e)
@@ -70,14 +72,14 @@ namespace MarketManage
         {
             this.tb.Text = mEcmGoods.goodsName;
             this.img.Source = CommonFunction.getImageSource(mEcmGoods.defaultImage);
-            
+
         }
-        
+
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             mEcmGoodsSpecList = new DaoApi().GoodsSpecList((int)mEcmGoods.goodsId);
             this.spec_lv.ItemsSource = mEcmGoodsSpecList;
-        }        
+        }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
 
@@ -119,7 +121,7 @@ namespace MarketManage
         {
             MyCustomControlLibrary.IconButton button = sender as MyCustomControlLibrary.IconButton;
             EcmGoodsSpec spec = button.Tag as EcmGoodsSpec;
-            new GoodsElectTagWindow(spec,mEcmGoods).ShowDialog();
+            new GoodsElectTagWindow(spec, mEcmGoods).ShowDialog();
         }
     }
 }

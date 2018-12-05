@@ -120,7 +120,7 @@
                             <StackPanel>
                                 <TextBlock x:Name="goodsNmaeTb" Text="a d  " FontSize="14" Foreground="#666" Margin="10,0,0,0" VerticalAlignment="Top" Height="30" Padding="4,8,0,0"/>
                                 <StackPanel  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,0,0"> 
-                                    <Image x:Name="thumbImg" Source="http://www.byam.cn/data/files/store_196/other/store_logo.jpg" Stretch="Fill" Width="40" VerticalAlignment="Bottom"/>
+                                    <Image x:Name="thumbImg"  Stretch="Fill" Width="40" VerticalAlignment="Bottom"/>
                                     <TextBlock x:Name="specTb" Text=" " FontSize="14" Foreground="#797979" Margin="10,0,0,0" VerticalAlignment="Bottom"/>
                                 </StackPanel>
                             </StackPanel>                            
