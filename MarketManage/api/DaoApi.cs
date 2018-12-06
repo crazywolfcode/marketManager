@@ -8,13 +8,23 @@ namespace MarketManage
 {
     public class DaoApi : ApiBase
     {
+        public bool existGoodsSpecTag(int goodsId, int specId, string epc)
+        {
+            List<EcmGoodsTag> list = new List<EcmGoodsTag>();
+            String condition = "goods_id = " + goodsId + " and spec_id =" + specId + " and tag ='"+epc+"'";            
+            String sql = DatabaseOPtionHelper.GetInstance().getSelectSqlNoSoftDeleteCondition(TableName.ecm_goods_tag.ToString(), null, condition,null,null,null,1);
+            list = DatabaseOPtionHelper.GetInstance().select<EcmGoodsTag>(sql);
+            Console.WriteLine("=== " + sql+" ===Count:"+list.Count);
+            return list.Count>0;
+        }
+
         public List<EcmGcategory> GetGCateList(int storeId,int parentid=0)
         {
             List<EcmGcategory> list = new List<EcmGcategory>();
             String condition = "store_id = " + storeId +" and parent_id ="+parentid;
             String sql = DatabaseOPtionHelper.GetInstance().getSelectSqlNoSoftDeleteCondition(TableName.ecm_gcategory.ToString(),null,condition);
             list = DatabaseOPtionHelper.GetInstance().select<EcmGcategory>(sql);
-            Console.WriteLine("--- " + sql);
+            Console.WriteLine("=== " + sql);
             return list;
         }
 
@@ -30,7 +40,7 @@ namespace MarketManage
                  condition =" cate_id =" + cateid;
             }
             String sql = DatabaseOPtionHelper.GetInstance().getSelectSqlNoSoftDeleteCondition(TableName.ecm_goods.ToString(),null,condition);
-            Console.WriteLine("=== " + sql);
+           
             list = DatabaseOPtionHelper.GetInstance().select<EcmGoods>(sql);
             return list;
         }

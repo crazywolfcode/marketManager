@@ -53,12 +53,13 @@ namespace MarketManage
         }
         #endregion mover
 
-        public GoodsElectTagWindow(EcmGoodsSpec spec, EcmGoods goods = null) 
+        public GoodsElectTagWindow(EcmGoodsSpec spec, EcmGoods goods = null)
         {
             InitializeComponent();
             mEcmGoodsSpec = spec;
             mEcmGoods = goods;
-            if (mEcmGoodsSpec == null) {
+            if (mEcmGoodsSpec == null)
+            {
                 this.Close();
             }
             new WindowBehavior(this).RepairWindowDefaultBehavior();
@@ -73,9 +74,11 @@ namespace MarketManage
             this.img.Source = CommonFunction.getImageSource(mEcmGoods.defaultImage);
             this.thumbImg.Source = CommonFunction.getImageSource(mEcmGoodsSpec.colorThumbnail);
             this.goodsNmaeTb.Text = mEcmGoods.goodsName;
-            this.specTb.Text = mEcmGoodsSpec.specOne + "    " + mEcmGoodsSpec.specTwo + "      ￥" + mEcmGoodsSpec.price + "  库存：" + mEcmGoodsSpec.stock + "    标签数:" + mEcmGoodsSpec.tagCount;
+            this.specTb.Text = mEcmGoodsSpec.specOne + "    " + mEcmGoodsSpec.specTwo + "      ￥" + mEcmGoodsSpec.price;
+            this.StockCounTb.Text = mEcmGoodsSpec.stock.ToString();
+            this.TagCounTb.Text = mEcmGoodsSpec.tagCount.ToString();
         }
-        
+
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             FillTagData();
@@ -86,8 +89,10 @@ namespace MarketManage
             CallBackHelper.RegisteInventoryRealTagCallBack(mInventoryRealTagCallBack);
         }
 
-        private void FillTagData() {
-            mEcmGoodsTagList = new DaoApi().getTagList((int)mEcmGoods.goodsId,(int)mEcmGoodsSpec.specId);           
+        private void FillTagData()
+        {
+            mEcmGoodsTagList = new DaoApi().getTagList((int)mEcmGoods.goodsId, (int)mEcmGoodsSpec.specId);
+            tag_lv.ItemsSource = mEcmGoodsTagList;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -122,7 +127,7 @@ namespace MarketManage
         private void Information(string message)
         {
             if (true)
-            {              
+            {
                 // #FFCA5100
                 sb.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xCA, 0x51, 0x00));
             }
@@ -152,11 +157,160 @@ namespace MarketManage
         }
 
         App.InventoryRealTagCallBack mInventoryRealTagCallBack = new App.InventoryRealTagCallBack(inventoryRealTagCallBack);
+      
         private static void inventoryRealTagCallBack(Reader.MessageTran tran)
         {
             //Todo
             Console.WriteLine("===:TODO");
         }
         #endregion
+
+
+        /// <summary>
+        /// 保存标签
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveTagBtn_Click(object sender, RoutedEventArgs e)
+        {
+            String epc = EPCTB.Text.Trim();
+            if (String.IsNullOrWhiteSpace(epc))
+            {
+                Console.WriteLine("EPC 不能为空");
+                return;
+            }
+
+            EcmGoodsTag goodsTag = new EcmGoodsTag
+            {
+                goodsId = mEcmGoods.goodsId,
+                specId = mEcmGoodsSpec.specId,
+                goodsName = mEcmGoods.goodsName,
+                isSellOut = 0,
+                storeId = App.mEcmStore.storeId,
+                storeName = App.mEcmStore.storeName,
+                tag = epc,
+            };
+
+            EcmCoodsElectronics electronics = new EcmCoodsElectronics();
+            electronics.storeId = App.mEcmStore.storeId;
+            electronics.goodsId = mEcmGoods.goodsId;
+            electronics.goodsName = mEcmGoods.goodsName;
+            electronics.specId = mEcmGoodsSpec.specId;
+            electronics.specName = mEcmGoodsSpec.specOne + mEcmGoodsSpec.specTwo;
+            electronics.epc = epc;
+            electronics.isSellOut = 0;
+
+            //1.判断是否已经和商品存在
+            bool exist = new DaoApi().existGoodsSpecTag((int)mEcmGoods.goodsId, (int)mEcmGoodsSpec.specId, epc);
+            //2.事务
+            if (exist)
+            {
+                MessageBox.Show("已经存在");
+            }
+            else
+            {
+                mEcmGoodsSpec.tagCount = mEcmGoodsSpec.tagCount + 1;
+                String updateSql = DatabaseOPtionHelper.GetInstance().getUpdateSql(mEcmGoodsSpec);
+                String intsertTagSql = DatabaseOPtionHelper.GetInstance().getInsertSql(goodsTag);
+                String intsertElctSql = DatabaseOPtionHelper.GetInstance().getInsertSql(electronics);
+                String[] sqls = new string[] { intsertTagSql, updateSql, intsertElctSql };
+                int res = DatabaseOPtionHelper.GetInstance().TransactionExecute(sqls);
+
+                if (res > 0)
+                {
+                    MessageBox.Show("保存成功！");
+                    RefreshData();
+                }
+                else
+                {
+                    MessageBox.Show("保存失败！");
+                }
+            }
+        }
+        /// <summary>
+        /// 刷新数据
+        /// </summary>
+        private void RefreshData()
+        {
+            this.TagCounTb.Text = mEcmGoodsSpec.tagCount.ToString();
+            FillTagData();
+        }
+        /// <summary>
+        /// 读取标签
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ReaderTagBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //标签存储区域 0x00 RESERVED 0x01 EPC 0x02 TID 0x03 USER
+                byte btMemBank = 0x02;
+                //读取数据首地址
+                byte btWordAdd = 0x00;
+                //读取数据长度
+                byte btWordCnt = 0x00;
+
+                btWordAdd = Convert.ToByte(0);
+
+                btWordCnt = Convert.ToByte(20);
+
+                Reader.ReaderMethod reader = new Reader.ReaderMethod();
+                reader.ReceiveCallback = new Reader.ReciveDataCallback(callaback);
+                reader.AnalyCallback = new Reader.AnalyDataCallback(anayCallback);
+                String err = String.Empty;
+                reader.OpenCom(MyHelper.ConfigurationHelper.GetConfig("Com"), Convert.ToInt32(MyHelper.ConfigurationHelper.GetConfig("Com")), out err);
+                //用天线1 去读
+                reader.ReadTag(0x00, btMemBank, btWordAdd, btWordCnt);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+        /// <summary>
+        /// ReceiveData call back
+        /// </summary>
+        /// <param name="btAryReceiveData"></param>
+        private void callaback(byte[] btAryReceiveData)
+        {
+
+            string strLog = CommonFunction.ByteArrayToString(btAryReceiveData, 0, btAryReceiveData.Length);
+
+            Console.WriteLine("=========== ReceiveData:" + strLog);
+
+            MessageBox.Show(" ReceiveData:" + strLog);
+        }
+
+        private void anayCallback(Reader.MessageTran messageTran) {
+            if (messageTran.PacketType != 0xA0)
+            {
+                MessageBox.Show(" anayCallback:" + messageTran.Cmd);
+                return;
+            }
+
+        }
+
+        /// <summary>
+        /// 读标签
+        /// </summary>
+        /// <param name="msgTran"></param>
+        private void ProcessReadTag(Reader.MessageTran msgTran)
+        {
+            string strCmd = "读标签";
+            string strErrorCode = string.Empty;
+
+            if (msgTran.AryData.Length == 1)
+            {
+                strErrorCode = CommonFunction.FormatErrorCode(msgTran.AryData[0]);
+                string strLog = strCmd + "失败，失败原因： " + strErrorCode;
+            }
+            else
+            {
+                TagInfoObj tagInfo = new TagInfoObj(msgTran.AryData);
+                MessageBox.Show(tagInfo.ShowInfo());
+            }
+        }
     }
 }

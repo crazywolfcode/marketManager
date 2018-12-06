@@ -19,6 +19,7 @@ namespace MarketManage
         List<EcmGoodsSpec> GoodsSpecList(int goodsId);
 
         List<EcmGoodsTag> getTagList(int goodsId,int specId);
-      
+
+        Boolean existGoodsSpecTag(int goodsId, int specId, String epc);
     }
 }

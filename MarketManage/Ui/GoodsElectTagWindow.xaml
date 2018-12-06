@@ -66,7 +66,9 @@
 
         <Border Background="White" Margin="0,0,0,0" Grid.Row="1">
             <DockPanel LastChildFill="True">
-                <StackPanel Height="35" x:Name="ToolBarPanel" DockPanel.Dock="Top" Margin="0,0,10,0" Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel Height="50" x:Name="ToolBarPanel" DockPanel.Dock="Top" Margin="0,10,10,0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock Text="标签的识别码：" VerticalAlignment="Center" FontSize="14"/>
+                    <TextBox Width="350" Margin="4,0,4,0" x:Name="EPCTB"/>
                     <StackPanel Orientation="Horizontal" >
                         <!--<myui:IconButton                
                           IsTransparency="True"
@@ -93,25 +95,29 @@
                             Margin="0,0,4,0"
                          />-->
                         <myui:IconButton 
-                           ToolTip="添加电子标签"
+                            x:Name="ReaderTagBtn" Click="ReaderTagBtn_Click"
+                          ToolTip="添加电子标签"
+                          Content="读取" 
                           IsTransparency="True"
                           MouseOverForeground="{DynamicResource myBlue}"
                           VerticalAlignment="Bottom" 
                           Foreground="Green"
                           IsShowIcon="True" Icon="&#xe610;" IconSize="24"
-                          Width="30" Height="30" IconMargin="-2,0,0,0"
+                          Width="60" Height="30" IconMargin="-2,0,0,0"
                           Margin="0,0,4,0"
                          />
                         <myui:IconButton       
-                            ToolTip="更多操作"
+                            x:Name="SaveTagBtn" Click="SaveTagBtn_Click"
+                            ToolTip="保存"
+                            Content="保存"
                             IsTransparency="True"
                             MouseOverForeground="{DynamicResource myBlue}"
                             VerticalAlignment="Bottom" 
                             IsShowIcon="True" Icon="&#xe8c4;" IconSize="28"
-                            Width="30" Height="30" IconMargin="-2,0,0,0"
+                            Width="60" Height="30" IconMargin="-2,0,0,0"
                             Margin="0,0,4,0"
                          />
-                    </StackPanel>
+                    </StackPanel>                   
                 </StackPanel>
                 <ScrollViewer Style="{DynamicResource DefaultScrollViewer}" VerticalScrollBarVisibility="Auto">
                     <StackPanel x:Name="mainBody" >
@@ -122,6 +128,8 @@
                                 <StackPanel  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,0,0"> 
                                     <Image x:Name="thumbImg"  Stretch="Fill" Width="40" VerticalAlignment="Bottom"/>
                                     <TextBlock x:Name="specTb" Text=" " FontSize="14" Foreground="#797979" Margin="10,0,0,0" VerticalAlignment="Bottom"/>
+                                    <TextBlock x:Name="StockCounTb" Text="库存量：120" FontSize="14" Foreground="#797979" Margin="10,0,0,0" VerticalAlignment="Bottom"/>
+                                    <TextBlock x:Name="TagCounTb" Text="标签数量：120" FontSize="14" Foreground="#797979" Margin="10,0,0,0" VerticalAlignment="Bottom"/>
                                 </StackPanel>
                             </StackPanel>                            
                         </StackPanel>

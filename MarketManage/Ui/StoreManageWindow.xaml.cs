@@ -148,7 +148,9 @@ namespace MarketManage
         {
             Grid grid = sender as Grid;
             int index = Convert.ToInt32(grid.Tag.ToString());
-            new GoodsManageWindow(storeList[index]).ShowDialog();         
+            EcmStore store = storeList[index];
+            App.mEcmStore = store;
+            new GoodsManageWindow(store).ShowDialog();         
         }
 
         private void Element_MouseLeave(object sender, MouseEventArgs e)

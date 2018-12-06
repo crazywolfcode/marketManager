@@ -88,6 +88,7 @@
     <Compile Include="Entity\EcmGoodsTag.cs" />
     <Compile Include="Entity\EcmOrder.cs" />
     <Compile Include="Entity\EcmStore.cs" />
+    <Compile Include="Entity\TagInfoObj.cs" />
     <Compile Include="Enum\ResourceName.cs" />
     <Compile Include="Helper\DatabaseOPtionHelper.cs" />
     <Compile Include="reader\CommondMethod.cs" />
