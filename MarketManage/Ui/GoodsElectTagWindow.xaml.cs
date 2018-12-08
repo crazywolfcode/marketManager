@@ -20,6 +20,7 @@ namespace MarketManage
         private EcmGoodsSpec mEcmGoodsSpec;
         private EcmGoods mEcmGoods;
         private List<EcmGoodsTag> mEcmGoodsTagList;
+
         #endregion
         #region max min close mover
         private void headerBorder_MouseMove(object sender, MouseEventArgs e)
@@ -77,6 +78,10 @@ namespace MarketManage
             this.specTb.Text = mEcmGoodsSpec.specOne + "    " + mEcmGoodsSpec.specTwo + "      ￥" + mEcmGoodsSpec.price;
             this.StockCounTb.Text = mEcmGoodsSpec.stock.ToString();
             this.TagCounTb.Text = mEcmGoodsSpec.tagCount.ToString();
+            //reader = new Reader.ReaderMethod();
+            //string err;
+            //reader.OpenCom(MyHelper.ConfigurationHelper.GetConfig("Com"), Convert.ToInt32(MyHelper.ConfigurationHelper.GetConfig("BaudRate")), out err);
+            //Console.WriteLine("=========" + err);
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
@@ -182,16 +187,16 @@ namespace MarketManage
 
             EcmGoodsTag goodsTag = new EcmGoodsTag
             {
-                goodsId = mEcmGoods.goodsId,
-                specId = mEcmGoodsSpec.specId,
+                goodsId =(int) mEcmGoods.goodsId,
+                specId = (int)mEcmGoodsSpec.specId,
                 goodsName = mEcmGoods.goodsName,
                 isSellOut = 0,
-                storeId = App.mEcmStore.storeId,
+                storeId = (int)App.mEcmStore.storeId,
                 storeName = App.mEcmStore.storeName,
                 tag = epc,
             };
 
-            EcmCoodsElectronics electronics = new EcmCoodsElectronics();
+            EcmGoodsElectronics electronics = new EcmGoodsElectronics();
             electronics.storeId = App.mEcmStore.storeId;
             electronics.goodsId = mEcmGoods.goodsId;
             electronics.goodsName = mEcmGoods.goodsName;
@@ -210,10 +215,10 @@ namespace MarketManage
             else
             {
                 mEcmGoodsSpec.tagCount = mEcmGoodsSpec.tagCount + 1;
-                String updateSql = DatabaseOPtionHelper.GetInstance().getUpdateSql(mEcmGoodsSpec);
+               // String updateSql = DatabaseOPtionHelper.GetInstance().getUpdateSql(mEcmGoodsSpec);
                 String intsertTagSql = DatabaseOPtionHelper.GetInstance().getInsertSql(goodsTag);
                 String intsertElctSql = DatabaseOPtionHelper.GetInstance().getInsertSql(electronics);
-                String[] sqls = new string[] { intsertTagSql, updateSql, intsertElctSql };
+                String[] sqls = new string[] { intsertTagSql, intsertElctSql };
                 int res = DatabaseOPtionHelper.GetInstance().TransactionExecute(sqls);
 
                 if (res > 0)
@@ -253,15 +258,16 @@ namespace MarketManage
 
                 btWordAdd = Convert.ToByte(0);
 
-                btWordCnt = Convert.ToByte(20);
+                btWordCnt = Convert.ToByte(8);
 
-                Reader.ReaderMethod reader = new Reader.ReaderMethod();
-                reader.ReceiveCallback = new Reader.ReciveDataCallback(callaback);
-                reader.AnalyCallback = new Reader.AnalyDataCallback(anayCallback);
+
+                //  reader.ReceiveCallback = new Reader.ReciveDataCallback(callaback);
+                App.reader.AnalyCallback = new Reader.AnalyDataCallback(anayCallback);
                 String err = String.Empty;
-                reader.OpenCom(MyHelper.ConfigurationHelper.GetConfig("Com"), Convert.ToInt32(MyHelper.ConfigurationHelper.GetConfig("Com")), out err);
+
+
                 //用天线1 去读
-                reader.ReadTag(0x00, btMemBank, btWordAdd, btWordCnt);
+                App.reader.ReadTag(0x01, btMemBank, btWordAdd, btWordCnt);
             }
             catch (System.Exception ex)
             {
@@ -286,10 +292,20 @@ namespace MarketManage
         private void anayCallback(Reader.MessageTran messageTran) {
             if (messageTran.PacketType != 0xA0)
             {
-                MessageBox.Show(" anayCallback:" + messageTran.Cmd);
+                MessageBox.Show("anayCallback:" + messageTran.Cmd);
                 return;
             }
-
+            Console.WriteLine(" anayCallback:Cmd:" + messageTran.Cmd);
+            switch (messageTran.Cmd)
+            {
+                
+                case 0x81:
+                    ProcessReadTag(messageTran);
+                    break;
+                case 0x82:
+                   // ProcessWriteTag(msgTran);
+                    break;
+            }
         }
 
         /// <summary>
@@ -309,7 +325,9 @@ namespace MarketManage
             else
             {
                 TagInfoObj tagInfo = new TagInfoObj(msgTran.AryData);
-                MessageBox.Show(tagInfo.ShowInfo());
+                this.Dispatcher.Invoke(new Action (delegate {
+                    this.EPCTB.Text = tagInfo.EPC.Trim();
+                }));
             }
         }
     }

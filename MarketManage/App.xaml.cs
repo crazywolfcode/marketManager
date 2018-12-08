@@ -16,7 +16,7 @@ namespace MarketManage
         public const bool DEBUG = true;
         public const string demianurl = "http://www.byam.cn/";
         public static EcmStore mEcmStore;
-
+        public static Reader.ReaderMethod reader;
         public delegate void WriteTagCallBack(Reader.MessageTran msgTran);
         public delegate void ReadeTagCallBack(Reader.MessageTran msgTran);
         public delegate void InventoryRealTagCallBack(Reader.MessageTran msgTran);
@@ -25,8 +25,8 @@ namespace MarketManage
         public static List<InventoryRealTagCallBack> inventoryRealTagCallBackList = new List<InventoryRealTagCallBack>();
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            //  new MainWindow().Show();
-            new StoreManageWindow().Show();
+             new MainWindow().Show();
+           // new StoreManageWindow().Show();
         }
 
 

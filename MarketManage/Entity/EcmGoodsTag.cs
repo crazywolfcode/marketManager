@@ -19,13 +19,13 @@ using System.Text;
 	 /// 可空:NO
 	 /// </summary>
 
-	 public UInt32 id{ get; set; }
+	 public Int32 id{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO
 	 /// </summary>
 
-	 public UInt32 storeId{ get; set; }
+	 public Int32 storeId{ get; set; }
 
 	 /// <summary>
 	 /// 可空:YES
@@ -37,7 +37,7 @@ using System.Text;
 	 /// 可空:NO
 	 /// </summary>
 
-	 public UInt32 goodsId{ get; set; }
+	 public Int32 goodsId{ get; set; }
 
 	 /// <summary>
 	 /// 可空:YES
@@ -49,7 +49,7 @@ using System.Text;
 	 /// 可空:NO
 	 /// </summary>
 
-	 public UInt32 specId{ get; set; }
+	 public Int32 specId{ get; set; }
 
 	 /// <summary>
 	 /// 可空:NO

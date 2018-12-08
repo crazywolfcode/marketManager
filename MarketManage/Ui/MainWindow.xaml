@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MarketManage"
         xmlns:myloading="clr-namespace:MyLoadingLib;assembly=MyLoadingLib"
         xmlns:myui="clr-namespace:MyCustomControlLibrary;assembly=MyCustomControlLibrary"
-        mc:Ignorable="d"
+        mc:Ignorable="d" 
         WindowStyle="None" Activated="Window_Activated" Closing="Window_Closing"
         Loaded="Window_Loaded" ContentRendered="Window_ContentRendered"
         Icon="/MarketManage;component/logo.ico"
@@ -84,7 +84,27 @@
         <Border Background="White" Margin="0,0,0,0" Grid.Row="1">
             <ScrollViewer Style="{DynamicResource DefaultScrollViewer}" VerticalScrollBarVisibility="Auto">
                 <StackPanel VerticalAlignment="Top" x:Name="mainBody">
-
+                    <myui:IconButton       
+                        Content="读标签" x:Name="ReaderTagBtn" Click="ReaderTagBtn_Click"
+                          IsTransparency="False" HorizontalAlignment="Center"
+                           MouseOverForeground="{DynamicResource myBlue}"
+                           VerticalAlignment="Bottom"
+                           IsShowIcon="False" Icon="&#xe617;" IconSize="28"
+                           Width="80" Height="30" IconMargin="-2,0,0,0"
+                            Margin="0,0,4,0" />                    
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="读到的标签:" ></TextBlock>
+                            <TextBlock x:Name="currTag"></TextBlock>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock x:Name="goodsNmaeTb" Text="a d  " FontSize="14" Foreground="#666" Margin="10,0,0,0" VerticalAlignment="Top" Height="30" Padding="4,8,0,0"/>
+                        <StackPanel  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,0,0">
+                            <Image x:Name="thumbImg"  Stretch="Fill" Width="40" VerticalAlignment="Bottom"/>
+                            <TextBlock x:Name="specTb" Text=" " FontSize="14" Foreground="#797979" Margin="10,0,0,0" VerticalAlignment="Bottom"/>
+                            <TextBlock x:Name="StockCounTb" Text="库存量：120" FontSize="14" Foreground="#797979" Margin="10,0,0,0" VerticalAlignment="Bottom"/>
+                            <TextBlock x:Name="TagCounTb" Text="标签数量：120" FontSize="14" Foreground="#797979" Margin="10,0,0,0" VerticalAlignment="Bottom"/>
+                        </StackPanel>
+                    </StackPanel>
                 </StackPanel>
             </ScrollViewer>
         </Border>

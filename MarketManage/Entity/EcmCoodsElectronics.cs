@@ -12,7 +12,7 @@ using System.Text;
 	 /// </summary>
 
 
-	  public  class EcmCoodsElectronics
+	  public  class EcmGoodsElectronics
 	 {
 
 	 /// <summary>

@@ -68,7 +68,7 @@
             <DockPanel LastChildFill="True">
                 <StackPanel Height="50" x:Name="ToolBarPanel" DockPanel.Dock="Top" Margin="0,10,10,0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <TextBlock Text="标签的识别码：" VerticalAlignment="Center" FontSize="14"/>
-                    <TextBox Width="350" Margin="4,0,4,0" x:Name="EPCTB"/>
+                    <TextBox Width="350" Margin="4,0,4,0" x:Name="EPCTB" VerticalContentAlignment="Center" FontSize="14"/>
                     <StackPanel Orientation="Horizontal" >
                         <!--<myui:IconButton                
                           IsTransparency="True"
@@ -110,10 +110,11 @@
                             x:Name="SaveTagBtn" Click="SaveTagBtn_Click"
                             ToolTip="保存"
                             Content="保存"
+                            IsShowIcon="False"
                             IsTransparency="True"
                             MouseOverForeground="{DynamicResource myBlue}"
                             VerticalAlignment="Bottom" 
-                            IsShowIcon="True" Icon="&#xe8c4;" IconSize="28"
+                            Icon="&#xe8c4;" IconSize="28"
                             Width="60" Height="30" IconMargin="-2,0,0,0"
                             Margin="0,0,4,0"
                          />
@@ -145,7 +146,7 @@
                                             <ControlTemplate TargetType="{x:Type ListViewItem}">
                                                 <Border x:Name="Bd" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" Margin="{TemplateBinding Margin}" BorderBrush="#e4e4e4" BorderThickness="0,0,0,1">
                                                     <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Right">
-                                                        <TextBlock x:Name="epcTb" Text="{Binding epc}"  FontSize="14" Padding="2"/>
+                                                        <TextBlock x:Name="epcTb" Text="{Binding tag}"  FontSize="14" Padding="2"/>
                                                         <TextBlock x:Name="SellStatusTb" Text="{Binding isSellOut,Converter={StaticResource tagSellStatusConverter}}" Margin="10,0,0,0"  FontSize="14" Padding="2"/>
                                                         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20,0,0,0">
                                                             <myui:IconButton x:Name="DeleteETagBtn" Icon="&#xe615;" Width="28" Height="28" ToolTip="删除失效的电子标签" Tag="{Binding}" Click="deleteETag_Click" IconMargin="2" IconSize="20" Foreground="#3ca9fe" IsTransparency="True"/>

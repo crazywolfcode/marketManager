@@ -28,6 +28,17 @@ namespace MarketManage
             return list;
         }
 
+        public EcmGoods getGoodsByid(int goodsId)
+        {
+            List<EcmGoods> list = new List<EcmGoods>();
+            String condition = String.Empty;         
+            condition = " goods_id =" + goodsId;            
+            String sql = DatabaseOPtionHelper.GetInstance().getSelectSqlNoSoftDeleteCondition(TableName.ecm_goods.ToString(), null, condition);
+
+            list = DatabaseOPtionHelper.GetInstance().select<EcmGoods>(sql);
+            return list[0];
+        }
+
         public List<EcmGoods> GetGoodsList(int cateid, int storeId)
         {
             List<EcmGoods> list = new List<EcmGoods>();
@@ -45,12 +56,39 @@ namespace MarketManage
             return list;
         }
 
+        public EcmGoodsSpec getGoodsSpecByid(int specId)
+        {
+            List<EcmGoodsSpec> list = new List<EcmGoodsSpec>();
+            String field = " spec_id,goods_id,spec_1 as spec_one,spec_2 as spec_two,price,stock,color_image_url,color_thumbnail,tag_count ";
+            String condition = "spec_id = " + specId;
+            String sql = DatabaseOPtionHelper.GetInstance().getSelectSqlNoSoftDeleteCondition(TableName.ecm_goods_spec.ToString(), field, condition);
+            list = DatabaseOPtionHelper.GetInstance().select<EcmGoodsSpec>(sql);
+            if (list.Count > 0)
+            {
+                return list[0];
+            }
+            return null;
+        }
+
         public List<EcmStore> GetStoreList()
         {
             List<EcmStore> list = new List<EcmStore>();
             String sql = DatabaseOPtionHelper.GetInstance().getSelectSqlNoSoftDeleteCondition(TableName.ecm_store.ToString());
             list=  DatabaseOPtionHelper.GetInstance().select<EcmStore>(sql);
             return list;
+        }
+
+        public EcmGoodsTag getTagByTag(string epc)
+        {
+            List<EcmGoodsTag> list = new List<EcmGoodsTag>();
+            String condition = "tag ='" + epc.Trim()+"'";
+            String sql = DatabaseOPtionHelper.GetInstance().getSelectSqlNoSoftDeleteCondition(TableName.ecm_goods_tag.ToString(),null,condition);
+            Console.WriteLine("=====SQL:" + sql);
+            list = DatabaseOPtionHelper.GetInstance().select<EcmGoodsTag>(sql);
+            if (list.Count > 0) {
+                return list[0];
+            }
+            return null;
         }
 
         public List<EcmGoodsTag> getTagList(int goodsId, int specId)

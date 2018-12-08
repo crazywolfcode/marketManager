@@ -20,9 +20,7 @@ namespace MarketManage
         #region varivable area
         private DispatcherTimer mDateTime;
         public SerialPort mSerialPort;
-
-
-        private Reader.ReaderMethod reader;
+        
         #endregion
 
         public MainWindow()
@@ -33,7 +31,7 @@ namespace MarketManage
 
         private void Window_Activated(object sender, EventArgs e)
         {
-
+         
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -42,9 +40,150 @@ namespace MarketManage
             //api link
             CheckApiLinkStatus();
             //reader link status
-            CheckReaderLinkStatus();
+         //   CheckReaderLinkStatus();
+
+
+            App.reader = new ReaderMethod();
+            //  reader.ReceiveCallback = new Reader.ReciveDataCallback(callaback);
+            App.reader.AnalyCallback = new AnalyDataCallback(AnalyData);
+            String err = String.Empty;
+         int res = App.reader.OpenCom(MyHelper.ConfigurationHelper.GetConfig("Com"), Convert.ToInt32(MyHelper.ConfigurationHelper.GetConfig("BaudRate")), out err);
+         //   int res =   reader.OpenCom("COM3",115200, out err);
+            
         }
 
+        private void AnalyData(MessageTran msgTran)
+        {
+            if (msgTran.PacketType != 0xA0)
+            {
+                return;
+            }
+            switch (msgTran.Cmd)
+            {
+                case 0x81:
+                    ProcessReadTag(msgTran);
+                    break;
+                default:
+                    MessageBox.Show("其它操作！");
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 读标签
+        /// </summary>
+        /// <param name="msgTran"></param>
+        private void ProcessReadTag(Reader.MessageTran msgTran)
+        {
+            string strCmd = "读标签";
+            string strErrorCode = string.Empty;
+
+            if (msgTran.AryData.Length == 1)
+            {
+                strErrorCode = CommonFunction.FormatErrorCode(msgTran.AryData[0]);
+                string strLog = strCmd + "失败，失败原因： " + strErrorCode;
+                MessageBox.Show(strLog);
+            }
+            else
+            {
+                //读取规则可查看r2000通讯协议用户手册_V2.38   
+                //data总长度
+                int nLen = msgTran.AryData.Length;
+                //Read 操作的数据长度。单位是字节 
+                int nDataLen = Convert.ToInt32(msgTran.AryData[nLen - 3]);
+                //所操作标签的有效数据长度(msgTran.AryData[2])   Epc的长度=有效数据长度-PC-CRC-读取的标签数据   pc和crc各占两字节
+                int nEpcLen = Convert.ToInt32(msgTran.AryData[2]) - nDataLen - 4;
+                //从数组3开始获取两字节的pc
+                string strPC = CommonFunction.ByteArrayToString(msgTran.AryData, 3, 2);               
+                string strEPC = CommonFunction.ByteArrayToString(msgTran.AryData, 5, nEpcLen);
+                string strCRC = CommonFunction.ByteArrayToString(msgTran.AryData, 5 + nEpcLen, 2);
+                string strData = CommonFunction.ByteArrayToString(msgTran.AryData, 7 + nEpcLen, nDataLen);
+
+                byte byTemp = msgTran.AryData[nLen - 2];
+                byte byAntId = (byte)((byTemp & 0x03) + 1);
+                //读取当前工作的天线   
+                string strAntId = byAntId.ToString();
+
+                string strReadCount = msgTran.AryData[nLen - 1].ToString();
+                
+                Console.WriteLine("EPC:" + strEPC);
+               // MessageBox.Show(strEPC);
+                Console.WriteLine("strData:" + strData);
+
+       
+                Console.WriteLine("strAntId:" + strAntId);
+
+
+                this.Dispatcher.Invoke(new Action(delegate { getTagInfo(strEPC); }));
+              
+            }
+        }
+
+
+  
+
+
+        private delegate void getdata(String epc);
+
+        private void getTagInfo(string epc) {
+            this.currTag.Text = epc;
+            EcmGoodsTag tag = new DaoApi().getTagByTag(epc);
+          
+            if (tag == null) {
+                this.goodsNmaeTb.Text = "";
+                this.thumbImg.Source =null;
+                this.specTb.Text = "";
+                this.StockCounTb.Text = "";
+                this.TagCounTb.Text ="";
+                return;
+            }
+            EcmGoods goods = new DaoApi().getGoodsByid(tag.goodsId);
+            if (goods != null)
+            {
+             
+                this.goodsNmaeTb.Text = goods.goodsName;
+                this.thumbImg.Source = CommonFunction.getImageSource(goods.defaultImage);
+            }
+            else {
+                MessageBox.Show("获取商品失败");
+            }
+            EcmGoodsSpec spec = new DaoApi().getGoodsSpecByid(tag.specId);
+
+            if (spec != null)
+            {
+                this.specTb.Text = spec.specOne + "    " + spec.specTwo + "      ￥" + spec.price;
+                this.StockCounTb.Text = spec.stock.ToString();
+                this.TagCounTb.Text = spec.tagCount.ToString();
+            }
+            else
+            {
+                MessageBox.Show("获取商品构规格失败");
+            }
+        }
+
+        /// <summary>
+        /// 读标签 Btn
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ReaderTagBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //标签存储区域 0x00 RESERVED 0x01 EPC 0x02 TID 0x03 USER
+                byte btMemBank = 0x02;
+                //读取数据首地址
+                byte btWordAdd = 0x00;
+                //读取数据长度
+                byte btWordCnt = Convert.ToByte("8");
+
+                App.reader.ReadTag(0x01, btMemBank, btWordAdd, btWordCnt);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         #region  时间 定时器
         private void StartDateTimeTime()
@@ -199,7 +338,7 @@ namespace MarketManage
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             //读取器开始工作
-            ReaderStart();
+        
             //注册事件
             CallBackHelper.RegisteReadeTagCallBack(mReadeTagCallBack);
             CallBackHelper.RegisteWriteTagCallBack(mWriteTagCallBack);
@@ -207,18 +346,7 @@ namespace MarketManage
         }
 
         #region 读取器开始工作
-        private void ReaderStart()
-        {
-            if (reader == null)
-            {
-                reader = new Reader.ReaderMethod
-                {
-                    AnalyCallback = AnalyCallback,
-                    SendCallback = SendCallback,
-                    ReceiveCallback = ReceiveCallback
-                };
-            }
-        }
+
         /// <summary>
         /// 发送数据 回调
         /// </summary>
@@ -407,6 +535,9 @@ namespace MarketManage
         }
 
         App.InventoryRealTagCallBack mInventoryRealTagCallBack = new App.InventoryRealTagCallBack(inventoryRealTagCallBack);
+
+        public bool InvokeRequired { get; private set; }
+
         private static void inventoryRealTagCallBack(Reader.MessageTran tran)
         {
             //Todo
@@ -420,7 +551,13 @@ namespace MarketManage
             {
                 mDateTime.Stop();
             }
-
+            try
+            {
+                App.reader.CloseCom();
+            }
+            catch {
+            }
+            
         }
 
         #region 状态栏
@@ -470,6 +607,7 @@ namespace MarketManage
             }
             statusInfoTextBlock.Text = message;
         }
+
 
         #endregion
     }
